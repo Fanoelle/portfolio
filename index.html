@@ -9,468 +9,856 @@
 <meta property="og:title" content="TCHOUONLA Fanoelle — Développeuse full-stack">
 <meta property="og:description" content="Modules Odoo, applications mobiles hors ligne, plateformes web.">
 <meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --fond: #f7fbfa;
-    --surface: #ffffff;
-    --encre: #14251f;
-    --encre-douce: #5c6b67;
-    --marque: #00695C;
-    --marque-claire: #2E9E8F;
-    --accent: #F2A33C;
-    --trait: #dde9e6;
-    --rayon: 18px;
+:root {
+  --fond:#f6faf9; --surface:#fff; --surface-2:#f0f7f5;
+  --encre:#0e1d19; --encre-douce:#5a6f6a;
+  --marque:#00695C; --marque-2:#2E9E8F; --or:#F2A33C; --corail:#E8615A;
+  --trait:#dbe9e5; --ombre:0 1px 2px rgba(6,40,34,.04), 0 8px 24px rgba(6,40,34,.06);
+  --ombre-forte:0 12px 40px rgba(6,40,34,.14);
+  --police:'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --mono:'JetBrains Mono', ui-monospace, monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --fond:#0a1210; --surface:#111d1a; --surface-2:#16241f;
+    --encre:#e9f2ef; --encre-douce:#9ab3ac; --trait:#22332e;
+    --ombre:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    --ombre-forte:0 12px 40px rgba(0,0,0,.5);
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --fond: #0f1614;
-      --surface: #17211e;
-      --encre: #e8f0ee;
-      --encre-douce: #9db3ad;
-      --trait: #26332f;
-    }
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: var(--fond);
-    color: var(--encre);
-    line-height: 1.65;
-    -webkit-font-smoothing: antialiased;
-  }
-  .conteneur { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; font-family:var(--police); background:var(--fond); color:var(--encre);
+  line-height:1.7; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.zone{max-width:1080px;margin:0 auto;padding:0 28px;}
+a{color:inherit;}
 
-  /* ---------- En-tête ---------- */
-  header {
-    background: linear-gradient(135deg, var(--marque), var(--marque-claire));
-    color: #fff;
-    padding: 88px 0 72px;
-  }
-  header h1 {
-    font-size: clamp(2.2rem, 6vw, 3.4rem);
-    margin: 0 0 8px;
-    letter-spacing: -1.2px;
-    font-weight: 800;
-  }
-  .role {
-    font-size: clamp(1rem, 2.6vw, 1.25rem);
-    opacity: .92;
-    margin: 0 0 24px;
-    font-weight: 500;
-  }
-  .accroche {
-    font-size: 1.02rem;
-    opacity: .88;
-    max-width: 620px;
-    margin: 0;
-  }
-  .socles { margin-top: 22px; display: flex; gap: 8px; flex-wrap: wrap; }
-  .socle {
-    background: rgba(255,255,255,.16);
-    border: 1px solid rgba(255,255,255,.28);
-    color: #fff;
-    padding: 5px 14px;
-    border-radius: 20px;
-    font-size: .82rem;
-    font-weight: 600;
-  }
-  .liens { margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap; }
-  .lien {
-    display: inline-block;
-    padding: 11px 22px;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: .94rem;
-    transition: transform .15s ease, box-shadow .15s ease;
-  }
-  .lien:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,.18); }
-  .lien.plein { background: #fff; color: var(--marque); }
-  .lien.creux { border: 1.5px solid rgba(255,255,255,.55); color: #fff; }
+/* ══════ Apparition au défilement ══════
+   Le masquage n'est appliqué que si le script a pu prendre la main
+   (classe `anime` posée sur <html>). Sans lui — script bloqué, navigateur
+   ancien —, la page s'affiche normalement plutôt que de rester blanche. */
+.anime .monte{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);}
+.anime .monte.vu{opacity:1;transform:none;}
+@media (prefers-reduced-motion:reduce){
+  .anime .monte{opacity:1;transform:none;transition:none;}
+  html{scroll-behavior:auto;}
+}
 
-  /* ---------- Sections ---------- */
-  section { padding: 64px 0 8px; }
-  h2 {
-    font-size: .8rem;
-    text-transform: uppercase;
-    letter-spacing: 1.4px;
-    color: var(--encre-douce);
-    font-weight: 700;
-    margin: 0 0 28px;
-  }
+/* ══════ Bandeau ══════ */
+.bandeau{
+  position:relative; overflow:hidden; color:#fff;
+  background:linear-gradient(140deg,#004d43 0%,var(--marque) 42%,var(--marque-2) 100%);
+  padding:100px 0 120px;
+}
+.bandeau::before{
+  content:''; position:absolute; inset:0;
+  background-image:radial-gradient(circle at 1px 1px, rgba(255,255,255,.16) 1px, transparent 0);
+  background-size:26px 26px; opacity:.5;
+}
+.halo{
+  position:absolute; border-radius:50%; filter:blur(70px); opacity:.32;
+  animation:flotter 22s ease-in-out infinite;
+}
+.halo.a{width:380px;height:380px;background:var(--or);top:-120px;right:-70px;}
+.halo.b{width:300px;height:300px;background:var(--marque-2);bottom:-130px;left:-60px;animation-delay:-11s;}
+@keyframes flotter{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(-26px,24px) scale(1.1);}}
+@media (prefers-reduced-motion:reduce){.halo{animation:none;}}
 
-  /* ---------- Projets ---------- */
-  .projet {
-    background: var(--surface);
-    border: 1px solid var(--trait);
-    border-radius: var(--rayon);
-    padding: 30px;
-    margin-bottom: 22px;
-  }
-  .projet h3 {
-    font-size: 1.4rem;
-    margin: 0 0 4px;
-    letter-spacing: -.5px;
-  }
-  .projet .sous {
-    color: var(--encre-douce);
-    font-size: .93rem;
-    margin: 0 0 16px;
-    font-style: italic;
-  }
-  .projet p { margin: 0 0 14px; }
-  .fort { color: var(--marque); font-weight: 600; }
+.bandeau .zone{position:relative;z-index:1;}
+.oeil{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.24);
+  padding:6px 15px; border-radius:30px; font-size:.82rem; font-weight:600;
+  margin-bottom:26px; backdrop-filter:blur(8px);
+}
+.pastille{width:7px;height:7px;border-radius:50%;background:#6ee7b7;box-shadow:0 0 0 0 rgba(110,231,183,.6);animation:battre 2.4s infinite;}
+@keyframes battre{0%{box-shadow:0 0 0 0 rgba(110,231,183,.6);}70%{box-shadow:0 0 0 9px rgba(110,231,183,0);}100%{box-shadow:0 0 0 0 rgba(110,231,183,0);}}
 
-  .piles { display: flex; gap: 7px; flex-wrap: wrap; margin: 18px 0 0; }
-  .pile {
-    background: rgba(0,105,92,.09);
-    color: var(--marque);
-    padding: 5px 13px;
-    border-radius: 20px;
-    font-size: .8rem;
-    font-weight: 600;
-  }
-  @media (prefers-color-scheme: dark) {
-    .pile { background: rgba(46,158,143,.16); color: var(--marque-claire); }
-  }
+.bandeau h1{
+  font-size:clamp(2.6rem,7vw,4.6rem); font-weight:800; letter-spacing:-2.4px;
+  margin:0 0 10px; line-height:1.02;
+}
+.metier{font-size:clamp(1.05rem,2.6vw,1.4rem);font-weight:300;opacity:.94;margin:0 0 26px;}
+.metier b{font-weight:600;}
+.pitch{font-size:1.06rem;max-width:660px;opacity:.9;margin:0 0 30px;font-weight:300;}
+.pitch strong{font-weight:600;}
 
-  .captures {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    gap: 12px;
-    margin: 22px 0 4px;
-  }
-  .captures img {
-    width: 100%;
-    border-radius: 12px;
-    border: 1px solid var(--trait);
-    display: block;
-  }
+.socles{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:34px;}
+.socle{
+  background:rgba(255,255,255,.13); border:1px solid rgba(255,255,255,.26);
+  padding:7px 16px;border-radius:24px;font-size:.85rem;font-weight:600;
+  font-family:var(--mono); backdrop-filter:blur(8px);
+  transition:transform .2s ease, background .2s ease;
+}
+.socle:hover{transform:translateY(-3px);background:rgba(255,255,255,.24);}
+.socle.premier{background:var(--or);color:#3a2500;border-color:transparent;}
 
-  .voir {
-    display: inline-block;
-    margin-top: 16px;
-    color: var(--marque);
-    text-decoration: none;
-    font-weight: 600;
-    font-size: .92rem;
-  }
-  .voir:hover { text-decoration: underline; }
-  .prive {
-    display: inline-block;
-    margin-top: 16px;
-    color: var(--encre-douce);
-    font-size: .88rem;
-  }
+.actions{display:flex;gap:13px;flex-wrap:wrap;}
+.bouton{
+  display:inline-flex;align-items:center;gap:9px;padding:13px 27px;border-radius:32px;
+  text-decoration:none;font-weight:600;font-size:.95rem;
+  transition:transform .2s cubic-bezier(.16,1,.3,1), box-shadow .2s ease;
+}
+.bouton:hover{transform:translateY(-3px);box-shadow:var(--ombre-forte);}
+.bouton.clair{background:#fff;color:var(--marque);}
+.bouton.vide{border:1.5px solid rgba(255,255,255,.5);color:#fff;}
 
-  /* ---------- Compétences ---------- */
-  .grille {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-    gap: 16px;
-  }
-  .bloc {
-    background: var(--surface);
-    border: 1px solid var(--trait);
-    border-radius: 14px;
-    padding: 20px;
-  }
-  .bloc h4 {
-    margin: 0 0 10px;
-    font-size: .78rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--marque);
-  }
-  .bloc p { margin: 0; font-size: .93rem; color: var(--encre-douce); }
-  .bloc.phare {
-    grid-column: 1 / -1;
-    border-color: var(--marque);
-    background: linear-gradient(135deg, rgba(0,105,92,.06), rgba(46,158,143,.03));
-  }
+/* ══════ Compteurs ══════ */
+.compteurs{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;
+  margin-top:-58px;position:relative;z-index:2;
+}
+.compteur{
+  background:var(--surface);border:1px solid var(--trait);border-radius:20px;
+  padding:24px 18px;text-align:center;box-shadow:var(--ombre);
+  transition:transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s ease;
+}
+.compteur:hover{transform:translateY(-5px);box-shadow:var(--ombre-forte);}
+.compteur .val{
+  font-size:2.2rem;font-weight:800;color:var(--marque);
+  line-height:1;letter-spacing:-1.4px;font-family:var(--mono);
+}
+.compteur .lib{font-size:.79rem;color:var(--encre-douce);margin-top:7px;font-weight:500;}
 
-  /* ---------- Méthode ---------- */
-  .principe {
-    border-left: 3px solid var(--marque);
-    padding: 2px 0 2px 20px;
-    margin-bottom: 26px;
-  }
-  .principe strong { display: block; margin-bottom: 5px; }
-  .principe span { color: var(--encre-douce); font-size: .95rem; }
+/* ══════ Sections ══════ */
+section{padding:88px 0 0;}
+.titre-sec{display:flex;align-items:center;gap:15px;margin-bottom:12px;}
+.titre-sec h2{
+  font-size:.8rem;text-transform:uppercase;letter-spacing:2.2px;
+  color:var(--marque);font-weight:700;margin:0;white-space:nowrap;
+}
+.titre-sec .filet{height:1px;background:var(--trait);flex:1;}
+.chapeau{font-size:1.5rem;font-weight:600;letter-spacing:-.7px;margin:0 0 40px;}
 
-  footer {
-    margin-top: 72px;
-    padding: 32px 0 44px;
-    border-top: 1px solid var(--trait);
-    text-align: center;
-    color: var(--encre-douce);
-    font-size: .88rem;
-  }
-  footer a { color: var(--marque); text-decoration: none; font-weight: 600; }
+/* ══════ Projets ══════ */
+.projet{
+  background:var(--surface);border:1px solid var(--trait);border-radius:26px;
+  overflow:hidden;margin-bottom:30px;box-shadow:var(--ombre);
+  transition:transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s ease;
+}
+.projet:hover{transform:translateY(-4px);box-shadow:var(--ombre-forte);}
+.projet-tete{padding:34px 34px 0;}
+.rang{display:flex;align-items:flex-start;gap:17px;margin-bottom:6px;flex-wrap:wrap;}
+.jeton{
+  width:52px;height:52px;border-radius:16px;display:grid;place-items:center;
+  font-size:1.5rem;flex-shrink:0;
+}
+.jeton.vert{background:linear-gradient(135deg,rgba(0,105,92,.14),rgba(46,158,143,.09));}
+.jeton.or{background:linear-gradient(135deg,rgba(242,163,60,.18),rgba(242,163,60,.07));}
+.jeton.corail{background:linear-gradient(135deg,rgba(232,97,90,.15),rgba(232,97,90,.06));}
+.projet h3{font-size:1.5rem;font-weight:700;margin:0;letter-spacing:-.7px;}
+.projet .role{color:var(--encre-douce);font-size:.92rem;margin:2px 0 0;}
+.etiq{
+  margin-left:auto;font-size:.71rem;font-weight:700;padding:5px 12px;border-radius:20px;
+  text-transform:uppercase;letter-spacing:.7px;white-space:nowrap;
+}
+.etiq.perso{background:rgba(0,105,92,.11);color:var(--marque);}
+.etiq.equipe{background:rgba(242,163,60,.16);color:#9a6208;}
+@media (prefers-color-scheme:dark){.etiq.equipe{color:var(--or);}}
 
-  .contact-plein { background: var(--marque); color: #fff; }
-  .contact-creux { border: 1.5px solid var(--marque); color: var(--marque); }
-  @media (prefers-color-scheme: dark) {
-    .contact-creux { border-color: var(--marque-claire); color: var(--marque-claire); }
-  }
+.projet-corps{padding:20px 34px 30px;}
+.projet-corps p{margin:0 0 15px;}
+.saillant{
+  border-left:3px solid var(--marque);padding:3px 0 3px 18px;margin:20px 0;
+  font-size:.97rem;
+}
+.saillant b{color:var(--marque);}
+@media (prefers-color-scheme:dark){.saillant b{color:var(--marque-2);}}
+
+.faits{display:flex;gap:26px;flex-wrap:wrap;margin:22px 0 4px;padding-top:20px;border-top:1px solid var(--trait);}
+.fait .n{font-size:1.35rem;font-weight:700;color:var(--marque);font-family:var(--mono);letter-spacing:-.6px;}
+.fait .q{font-size:.76rem;color:var(--encre-douce);}
+
+.piles{display:flex;gap:7px;flex-wrap:wrap;margin-top:22px;}
+.pile{
+  background:var(--surface-2);color:var(--marque);padding:5px 13px;border-radius:18px;
+  font-size:.77rem;font-weight:600;font-family:var(--mono);border:1px solid var(--trait);
+}
+@media (prefers-color-scheme:dark){.pile{color:var(--marque-2);}}
+
+.mention{display:inline-block;margin-top:20px;color:var(--encre-douce);font-size:.86rem;}
+.aller{
+  display:inline-flex;align-items:center;gap:7px;margin-top:20px;
+  color:var(--marque);text-decoration:none;font-weight:600;font-size:.92rem;
+}
+.aller:hover{gap:12px;}
+.aller{transition:gap .2s ease;}
+@media (prefers-color-scheme:dark){.aller{color:var(--marque-2);}}
+
+/* ══════ Galerie ══════ */
+.galerie{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:13px;
+  padding:0 34px 34px;
+}
+.galerie.large{grid-template-columns:repeat(auto-fit,minmax(190px,1fr));}
+.vue{
+  position:relative;border-radius:15px;overflow:hidden;border:1px solid var(--trait);
+  background:var(--surface-2);cursor:zoom-in;
+  transition:transform .28s cubic-bezier(.16,1,.3,1), box-shadow .28s ease;
+}
+.vue:hover{transform:translateY(-6px) scale(1.02);box-shadow:var(--ombre-forte);z-index:3;}
+/* Hauteur uniforme : les captures de téléphone ont des formats variables
+   (de 0.25 à 0.45), et une grille aux hauteurs inégales laisse des vides.
+   Le cadrage part du haut, là où se trouve l'essentiel de l'écran. */
+.vue img{width:100%;display:block;aspect-ratio:9/17;object-fit:cover;object-position:top;}
+/* Les captures de bureau sont en 16:10 : les forcer au format téléphone
+   les rognerait de moitié. */
+.galerie.bureau .vue img{aspect-ratio:16/10;}
+.vue figcaption{
+  position:absolute;left:0;right:0;bottom:0;padding:16px 11px 9px;
+  background:linear-gradient(transparent,rgba(0,0,0,.82));
+  color:#fff;font-size:.74rem;font-weight:600;
+  opacity:0;transition:opacity .28s ease;
+}
+.vue:hover figcaption{opacity:1;}
+
+/* ══════ Schémas ══════ */
+.schema{padding:8px 34px 30px;}
+.schema svg{width:100%;height:auto;display:block;}
+
+/* ══════ Compétences ══════ */
+.competences{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;}
+.carte{
+  background:var(--surface);border:1px solid var(--trait);border-radius:20px;padding:26px;
+  transition:transform .25s cubic-bezier(.16,1,.3,1), border-color .25s ease;
+}
+.carte:hover{transform:translateY(-5px);border-color:var(--marque-2);}
+.carte h4{
+  margin:0 0 12px;font-size:.76rem;text-transform:uppercase;letter-spacing:1.3px;
+  color:var(--marque);display:flex;align-items:center;gap:9px;
+}
+.carte p{margin:0;font-size:.92rem;color:var(--encre-douce);}
+.carte.vedette{
+  grid-column:1/-1;border-color:var(--marque);
+  background:linear-gradient(135deg,rgba(0,105,92,.055),rgba(46,158,143,.02));
+  position:relative;overflow:hidden;
+}
+.carte.vedette::after{
+  content:'';position:absolute;top:-45px;right:-45px;width:150px;height:150px;
+  border-radius:50%;background:radial-gradient(circle,rgba(242,163,60,.16),transparent 70%);
+}
+.carte.vedette h4{font-size:.94rem;letter-spacing:.7px;}
+.savoirs{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;}
+.savoir{
+  background:var(--surface);border:1px solid var(--trait);padding:5px 12px;
+  border-radius:16px;font-size:.77rem;font-weight:600;font-family:var(--mono);
+}
+
+/* ══════ Méthode ══════ */
+.principes{display:grid;gap:20px;}
+.principe{
+  background:var(--surface);border:1px solid var(--trait);border-left:3px solid var(--marque);
+  border-radius:0 18px 18px 0;padding:22px 26px;
+  transition:transform .25s ease, border-left-color .25s ease;
+}
+.principe:hover{transform:translateX(6px);border-left-color:var(--or);}
+.principe b{display:block;margin-bottom:6px;font-size:1.02rem;}
+.principe span{color:var(--encre-douce);font-size:.95rem;}
+
+/* ══════ Contact ══════ */
+.contact{
+  background:linear-gradient(140deg,var(--marque),var(--marque-2));
+  color:#fff;border-radius:28px;padding:52px 34px;text-align:center;
+  position:relative;overflow:hidden;
+}
+.contact::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.14) 1px,transparent 0);
+  background-size:24px 24px;opacity:.45;
+}
+.contact > *{position:relative;z-index:1;}
+.contact h3{font-size:1.9rem;font-weight:700;margin:0 0 12px;letter-spacing:-.9px;}
+.contact p{max-width:520px;margin:0 auto 28px;opacity:.93;font-weight:300;}
+.contact .actions{justify-content:center;}
+.avis{margin-top:22px;font-size:.82rem;opacity:.72;}
+
+footer{
+  margin-top:80px;padding:34px 0 48px;border-top:1px solid var(--trait);
+  text-align:center;color:var(--encre-douce);font-size:.87rem;
+}
+
+/* ══════ Loupe ══════ */
+.loupe{
+  position:fixed;inset:0;background:rgba(4,18,15,.93);z-index:99;
+  display:none;place-items:center;padding:28px;cursor:zoom-out;
+  backdrop-filter:blur(6px);
+}
+.loupe.ouverte{display:grid;}
+.loupe img{max-width:100%;max-height:88vh;border-radius:14px;box-shadow:0 24px 70px rgba(0,0,0,.6);}
+.loupe .fermer{position:absolute;top:20px;right:26px;color:#fff;font-size:2rem;line-height:1;opacity:.8;}
+
+@media (max-width:640px){
+  .bandeau{padding:74px 0 100px;}
+  .projet-tete,.projet-corps{padding-left:22px;padding-right:22px;}
+  .galerie,.schema{padding-left:22px;padding-right:22px;}
+  .etiq{margin-left:0;}
+}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="conteneur">
+<div class="bandeau">
+  <div class="halo a"></div>
+  <div class="halo b"></div>
+  <div class="zone">
+    <span class="oeil"><span class="pastille"></span> Disponible pour un stage ou une alternance</span>
     <h1>TCHOUONLA Fanoelle</h1>
-    <p class="role">Étudiante &amp; développeuse full-stack — Cameroun</p>
-    <p class="accroche">
-      Je développe des applications métier — web, mobile et
-      <strong>modules Odoo</strong> — pour des contextes où l'infrastructure ne
-      suit pas toujours : réseau intermittent, téléphones d'entrée de gamme,
-      utilisateurs pressés. Cette contrainte oriente la plupart de mes choix
-      techniques.
+    <p class="metier">Étudiante &amp; <b>développeuse full-stack</b> — Cameroun</p>
+    <p class="pitch">
+      Je développe des applications métier — <strong>modules Odoo</strong>, applications
+      mobiles et plateformes web — pour des contextes où l'infrastructure ne suit pas
+      toujours : réseau intermittent, téléphones d'entrée de gamme, utilisateurs pressés.
+      Cette contrainte oriente la plupart de mes choix techniques.
     </p>
     <div class="socles">
-      <span class="socle">Odoo 15 &amp; 17</span>
+      <span class="socle premier">Odoo 15 &amp; 17</span>
       <span class="socle">Flutter</span>
       <span class="socle">NestJS</span>
       <span class="socle">Django</span>
       <span class="socle">PostgreSQL</span>
+      <span class="socle">React</span>
     </div>
-    <div class="liens">
-      <a class="lien plein" href="https://github.com/Fanoelle">Voir mes projets</a>
-      <a class="lien creux" href="#contact">Me contacter</a>
+    <div class="actions">
+      <a class="bouton clair" href="#projets">Découvrir mes projets ↓</a>
+      <a class="bouton vide" href="#contact">Me contacter</a>
     </div>
   </div>
-</header>
+</div>
 
-<div class="conteneur">
+<div class="zone">
 
-  <section>
-    <h2>Projets</h2>
+  <div class="compteurs">
+    <div class="compteur monte"><div class="val" data-cible="5">0</div><div class="lib">projets menés</div></div>
+    <div class="compteur monte"><div class="val" data-cible="64" data-suffixe="k">0</div><div class="lib">lignes de code</div></div>
+    <div class="compteur monte"><div class="val" data-cible="3" data-suffixe=" modules">0</div><div class="lib">Odoo développés</div></div>
+    <div class="compteur monte"><div class="val" data-cible="6" data-suffixe="+">0</div><div class="lib">technologies</div></div>
+  </div>
 
-    <div class="projet">
-      <h3>🏪 Boutique CRM</h3>
-      <p class="sous">Plateforme de fidélisation clientèle pour commerces de détail</p>
-      <p>
-        Un commerçant encaisse ses ventes sur son téléphone, constitue son
-        fichier clients au fil des passages, et relance par SMS ceux qui
-        s'éloignent.
-      </p>
-      <p>
-        <span class="fort">Toute l'application fonctionne sans connexion.</span>
-        Dans une boutique de Douala, le réseau va et vient : une caisse qui
-        afficherait « pas de connexion » au moment d'encaisser serait
-        abandonnée en une semaine. Les données sont écrites en SQLite locale,
-        la synchronisation rattrape le retard quand le réseau revient.
-      </p>
-      <p>
-        Segmentation RFM automatique, détection de doublons, recherche
-        tolérante aux fautes de frappe, gestion des rôles vendeur/gérant,
-        traçabilité des encaissements.
-      </p>
-      <div class="captures">
-        <img src="captures/accueil.png" alt="Tableau de bord de la boutique" loading="lazy">
-        <img src="captures/vente.png" alt="Écran d'encaissement" loading="lazy">
-        <img src="captures/historique.png" alt="Historique des ventes" loading="lazy">
-        <img src="captures/equipe.png" alt="Gestion de l'équipe" loading="lazy">
-      </div>
-      <div class="piles">
-        <span class="pile">Flutter</span>
-        <span class="pile">Dart</span>
-        <span class="pile">NestJS</span>
-        <span class="pile">TypeScript</span>
-        <span class="pile">PostgreSQL</span>
-        <span class="pile">SQLite</span>
-        <span class="pile">Docker</span>
-      </div>
-      <span class="prive">Dépôt privé — démonstration sur demande</span>
+  <!-- ═══════════ PROJETS ═══════════ -->
+  <section id="projets">
+    <div class="titre-sec monte">
+      <h2>Réalisations</h2><span class="filet"></span>
     </div>
+    <p class="chapeau monte">Cinq projets, du terrain au code.</p>
 
-    <div class="projet">
-      <h3>🤝 Mutuelle — module Odoo 17</h3>
-      <p class="sous">Gestion d'une mutuelle d'entreprise</p>
-      <p>
-        Un module métier complet pour une mutuelle : adhérents et ayants droit,
-        cotisations, prêts avec échéanciers et remboursements, caisse et
-        opérations, aides sociales.
-      </p>
-      <p>
-        <span class="fort">La mécanique financière est automatisée.</span> Des
-        tâches planifiées appliquent chaque mois les déductions de prêt sur les
-        cotisations et recalculent les retards, sans intervention manuelle. Cinq
-        rapports imprimables couvrent le journal de caisse, les états par
-        période, les cotisations et les prêts.
-      </p>
-      <div class="piles">
-        <span class="pile">Odoo 17</span>
-        <span class="pile">Python</span>
-        <span class="pile">PostgreSQL</span>
-        <span class="pile">QWeb</span>
-        <span class="pile">XML</span>
+    <!-- Boutique CRM -->
+    <article class="projet monte">
+      <div class="projet-tete">
+        <div class="rang">
+          <div class="jeton vert">🏪</div>
+          <div>
+            <h3>Boutique CRM</h3>
+            <p class="role">Plateforme de fidélisation pour commerces de détail</p>
+          </div>
+          <span class="etiq perso">Projet personnel</span>
+        </div>
       </div>
-      <span class="prive">Module privé — environ 4 400 lignes</span>
-    </div>
-
-    <div class="projet">
-      <h3>🏦 Microfinance — modules Odoo</h3>
-      <p class="sous">Gestion de crédits et d'épargne — contribution</p>
-      <p>
-        Modules de microfinance couvrant le cycle du crédit : ouverture de
-        compte, versements et retraits, sessions de caisse journalières,
-        demandes de crédit avec validation à plusieurs niveaux, garanties,
-        échéanciers, remboursements et pénalités.
-      </p>
-      <p>
-        Reçus, relevés de compte et états financiers journaliers, avec une
-        sécurité par rôles et la traçabilité des opérations.
-      </p>
-      <div class="piles">
-        <span class="pile">Odoo</span>
-        <span class="pile">Python</span>
-        <span class="pile">PostgreSQL</span>
-        <span class="pile">QWeb</span>
-      </div>
-      <span class="prive">Travail d'équipe — modules privés</span>
-    </div>
-
-    <div class="projet">
-      <h3>🚕 Sécurité Taxi Cameroun</h3>
-      <p class="sous">Sécurité des transports en commun</p>
-      <p>
-        Un passager scanne le code QR collé dans un taxi et sait,
-        <span class="fort">avant de monter</span>, qui conduit et si ses papiers
-        ont été contrôlés — et par quelle autorité.
-      </p>
-      <p>
-        Une fois à bord, il partage son trajet avec un proche et peut
-        déclencher une alerte d'un seul appui.
-      </p>
-      <div class="piles">
-        <span class="pile">Web</span>
-        <span class="pile">PostgreSQL</span>
-        <span class="pile">QR</span>
-      </div>
-      <span class="prive">Dépôt privé — démonstration sur demande</span>
-    </div>
-
-    <div class="projet">
-      <h3>🎓 LinguaCampus</h3>
-      <p class="sous">Gestion d'un institut de langues</p>
-      <p>
-        Le cycle de vie complet d'un apprenant — de l'inscription à la
-        délivrance d'une attestation — avec le planning des cours, la
-        facturation et le suivi pédagogique.
-      </p>
-      <div class="piles">
-        <span class="pile">Django</span>
-        <span class="pile">Django REST</span>
-        <span class="pile">React</span>
-        <span class="pile">PostgreSQL</span>
-      </div>
-      <a class="voir" href="https://github.com/Fanoelle/lingua-platform">Voir le projet →</a>
-    </div>
-  </section>
-
-  <section>
-    <h2>Compétences</h2>
-    <div class="grille">
-      <div class="bloc">
-        <h4>Back-end</h4>
-        <p>NestJS, Django, Node.js, Django REST Framework, PostgreSQL, conception de schémas</p>
-      </div>
-      <div class="bloc phare">
-        <h4>Odoo — socle solide</h4>
+      <div class="projet-corps">
         <p>
-          Développement de modules métier sur Odoo 15 et 17 : modèles et
-          héritage, champs calculés, contraintes et <em>onchange</em>, vues et
-          assistants, rapports QWeb imprimables, tâches planifiées, sécurité par
-          groupes et règles d'accès.
+          Une commerçante encaisse ses ventes sur son téléphone, constitue son fichier
+          clients au fil des passages, et relance par SMS celles et ceux qui s'éloignent.
         </p>
+        <div class="saillant">
+          <b>Toute l'application fonctionne sans connexion.</b> Dans une boutique de Douala,
+          le réseau va et vient : une caisse qui afficherait « pas de connexion » au moment
+          d'encaisser serait abandonnée en une semaine. Les données sont écrites en SQLite
+          locale, et la synchronisation rattrape le retard quand le réseau revient.
+        </div>
+        <p>
+          Segmentation RFM automatique, détection de doublons, recherche tolérante aux
+          fautes de frappe, gestion des rôles vendeur/gérante, calcul de la monnaie à
+          rendre, traçabilité des encaissements par vendeuse.
+        </p>
+        <div class="faits">
+          <div class="fait"><div class="n">20 300</div><div class="q">lignes de code</div></div>
+          <div class="fait"><div class="n">113</div><div class="q">tests automatisés</div></div>
+          <div class="fait"><div class="n">3</div><div class="q">couches applicatives</div></div>
+        </div>
+        <div class="piles">
+          <span class="pile">Flutter</span><span class="pile">Dart</span>
+          <span class="pile">NestJS</span><span class="pile">TypeScript</span>
+          <span class="pile">PostgreSQL</span><span class="pile">SQLite</span>
+          <span class="pile">Docker</span>
+        </div>
       </div>
-      <div class="bloc">
-        <h4>Mobile</h4>
-        <p>Flutter, Dart, SQLite, architectures hors ligne, synchronisation différée</p>
+
+      <div class="schema">
+        <svg viewBox="0 0 660 132" role="img" aria-label="Architecture : PostgreSQL, API NestJS, application Flutter et base SQLite locale">
+          <defs>
+            <linearGradient id="dg" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#00695C"/><stop offset="1" stop-color="#2E9E8F"/>
+            </linearGradient>
+          </defs>
+          <rect x="6" y="34" width="150" height="62" rx="14" fill="none" stroke="#2E9E8F" stroke-width="1.5"/>
+          <text x="81" y="60" text-anchor="middle" font-size="13" font-weight="700" fill="#00695C" font-family="monospace">PostgreSQL</text>
+          <text x="81" y="78" text-anchor="middle" font-size="10" fill="#7d918c">Docker · port 55432</text>
+
+          <path d="M160 65 h34" stroke="url(#dg)" stroke-width="2" fill="none"/>
+          <path d="M188 60 l8 5 -8 5 z" fill="#2E9E8F"/>
+
+          <rect x="200" y="34" width="150" height="62" rx="14" fill="none" stroke="#2E9E8F" stroke-width="1.5"/>
+          <text x="275" y="60" text-anchor="middle" font-size="13" font-weight="700" fill="#00695C" font-family="monospace">API NestJS</text>
+          <text x="275" y="78" text-anchor="middle" font-size="10" fill="#7d918c">JWT · rôles · cloisonnement</text>
+
+          <path d="M354 65 h34" stroke="url(#dg)" stroke-width="2" stroke-dasharray="5 4" fill="none"/>
+          <path d="M382 60 l8 5 -8 5 z" fill="#2E9E8F"/>
+          <text x="371" y="52" text-anchor="middle" font-size="9" fill="#7d918c">sync</text>
+
+          <rect x="394" y="10" width="150" height="52" rx="14" fill="url(#dg)"/>
+          <text x="469" y="32" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="monospace">Flutter</text>
+          <text x="469" y="48" text-anchor="middle" font-size="10" fill="#d5efe9">interface Android</text>
+
+          <path d="M469 66 v14" stroke="#2E9E8F" stroke-width="2" fill="none"/>
+          <path d="M464 76 l5 8 5 -8 z" fill="#2E9E8F"/>
+
+          <rect x="394" y="84" width="150" height="42" rx="12" fill="none" stroke="#F2A33C" stroke-width="1.5"/>
+          <text x="469" y="101" text-anchor="middle" font-size="12" font-weight="700" fill="#c07d15" font-family="monospace">SQLite locale</text>
+          <text x="469" y="116" text-anchor="middle" font-size="9" fill="#7d918c">source de vérité hors ligne</text>
+
+          <text x="606" y="62" text-anchor="middle" font-size="10" fill="#7d918c">l'interface ne lit</text>
+          <text x="606" y="76" text-anchor="middle" font-size="10" fill="#7d918c">jamais le réseau</text>
+          <path d="M548 69 h14" stroke="#dbe9e5" stroke-width="1.5" fill="none"/>
+        </svg>
       </div>
-      <div class="bloc">
-        <h4>Front-end</h4>
-        <p>React, Next.js, TypeScript, interfaces adaptatives</p>
+
+      <div class="galerie">
+        <figure class="vue"><img src="captures/boutique/accueil.png" alt="Tableau de bord de la boutique" loading="lazy"><figcaption>Tableau de bord</figcaption></figure>
+        <figure class="vue"><img src="captures/boutique/vente.png" alt="Écran d'encaissement" loading="lazy"><figcaption>Encaissement</figcaption></figure>
+        <figure class="vue"><img src="captures/boutique/historique.png" alt="Historique des ventes" loading="lazy"><figcaption>Historique &amp; traçabilité</figcaption></figure>
+        <figure class="vue"><img src="captures/boutique/equipe.png" alt="Gestion de l'équipe" loading="lazy"><figcaption>Gestion de l'équipe</figcaption></figure>
       </div>
-      <div class="bloc">
-        <h4>Outils</h4>
-        <p>Docker, Git, Linux, déploiement sur serveur</p>
+    </article>
+
+    <!-- Mutuelle -->
+    <article class="projet monte">
+      <div class="projet-tete">
+        <div class="rang">
+          <div class="jeton or">🤝</div>
+          <div>
+            <h3>Mutuelle</h3>
+            <p class="role">Module Odoo 17 — gestion d'une mutuelle d'entreprise</p>
+          </div>
+          <span class="etiq perso">Projet personnel</span>
+        </div>
       </div>
-    </div>
+      <div class="projet-corps">
+        <p>
+          Un module métier complet : adhérents et ayants droit, cotisations, prêts avec
+          échéanciers et remboursements, caisse et opérations, aides sociales.
+        </p>
+        <div class="saillant">
+          <b>La mécanique financière tourne toute seule.</b> Deux tâches planifiées
+          appliquent chaque mois les déductions de prêt sur les cotisations et recalculent
+          les retards — sans intervention manuelle, sur des montants qui engagent la
+          trésorerie de la mutuelle.
+        </div>
+        <p>
+          Cinq rapports imprimables couvrent le journal de caisse, les états par période,
+          les cotisations et les prêts. La traçabilité passe par l'héritage de
+          <code>mail.thread</code> : chaque opération laisse une trace horodatée.
+        </p>
+        <div class="faits">
+          <div class="fait"><div class="n">4 400</div><div class="q">lignes de code</div></div>
+          <div class="fait"><div class="n">12</div><div class="q">modèles métier</div></div>
+          <div class="fait"><div class="n">5</div><div class="q">rapports QWeb</div></div>
+          <div class="fait"><div class="n">30</div><div class="q">contraintes &amp; calculs</div></div>
+        </div>
+        <div class="piles">
+          <span class="pile">Odoo 17</span><span class="pile">Python</span>
+          <span class="pile">PostgreSQL</span><span class="pile">QWeb</span>
+          <span class="pile">XML</span>
+        </div>
+      </div>
+
+      <div class="schema">
+        <svg viewBox="0 0 660 148" role="img" aria-label="Cycle d'un prêt de mutuelle : demande, validation, décaissement, déduction mensuelle, solde">
+          <defs>
+            <linearGradient id="og" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#F2A33C"/><stop offset="1" stop-color="#00695C"/>
+            </linearGradient>
+          </defs>
+          <text x="10" y="20" font-size="11" font-weight="700" fill="#7d918c" font-family="monospace">CYCLE D'UN PRÊT</text>
+
+          <circle cx="58" cy="66" r="25" fill="none" stroke="#F2A33C" stroke-width="1.5"/>
+          <text x="58" y="70" text-anchor="middle" font-size="17">📝</text>
+          <text x="58" y="110" text-anchor="middle" font-size="10" font-weight="600" fill="#5a6f6a">Demande</text>
+          <text x="58" y="124" text-anchor="middle" font-size="9" fill="#9ab3ac">montant, durée</text>
+
+          <path d="M88 66 h44" stroke="url(#og)" stroke-width="2" fill="none"/><path d="M126 61 l8 5 -8 5 z" fill="#00695C"/>
+
+          <circle cx="164" cy="66" r="25" fill="none" stroke="#F2A33C" stroke-width="1.5"/>
+          <text x="164" y="70" text-anchor="middle" font-size="17">✓</text>
+          <text x="164" y="110" text-anchor="middle" font-size="10" font-weight="600" fill="#5a6f6a">Validation</text>
+          <text x="164" y="124" text-anchor="middle" font-size="9" fill="#9ab3ac">comptable, président</text>
+
+          <path d="M194 66 h44" stroke="url(#og)" stroke-width="2" fill="none"/><path d="M232 61 l8 5 -8 5 z" fill="#00695C"/>
+
+          <circle cx="270" cy="66" r="25" fill="none" stroke="#00695C" stroke-width="1.5"/>
+          <text x="270" y="70" text-anchor="middle" font-size="17">💸</text>
+          <text x="270" y="110" text-anchor="middle" font-size="10" font-weight="600" fill="#5a6f6a">Décaissement</text>
+          <text x="270" y="124" text-anchor="middle" font-size="9" fill="#9ab3ac">sortie de caisse</text>
+
+          <path d="M300 66 h44" stroke="url(#og)" stroke-width="2" fill="none"/><path d="M338 61 l8 5 -8 5 z" fill="#00695C"/>
+
+          <circle cx="376" cy="66" r="25" fill="#00695C"/>
+          <text x="376" y="71" text-anchor="middle" font-size="16" fill="#fff">⏱</text>
+          <text x="376" y="110" text-anchor="middle" font-size="10" font-weight="700" fill="#00695C">Déduction</text>
+          <text x="376" y="124" text-anchor="middle" font-size="9" fill="#9ab3ac">automatique, mensuelle</text>
+
+          <path d="M406 66 h44" stroke="url(#og)" stroke-width="2" fill="none"/><path d="M444 61 l8 5 -8 5 z" fill="#00695C"/>
+
+          <circle cx="482" cy="66" r="25" fill="none" stroke="#00695C" stroke-width="1.5"/>
+          <text x="482" y="70" text-anchor="middle" font-size="17">🏁</text>
+          <text x="482" y="110" text-anchor="middle" font-size="10" font-weight="600" fill="#5a6f6a">Solde</text>
+
+          <path d="M376 34 v-12 h150 v44 h-20" stroke="#F2A33C" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/>
+          <text x="600" y="30" text-anchor="middle" font-size="9" fill="#c07d15">tâche planifiée</text>
+          <text x="600" y="43" text-anchor="middle" font-size="9" fill="#9ab3ac">recalcul des retards</text>
+        </svg>
+      </div>
+      <div class="projet-corps" style="padding-top:0">
+        <span class="mention">Module privé — démonstration sur demande</span>
+      </div>
+    </article>
+
+    <!-- Microfinance -->
+    <article class="projet monte">
+      <div class="projet-tete">
+        <div class="rang">
+          <div class="jeton or">🏦</div>
+          <div>
+            <h3>Microfinance &amp; crédits</h3>
+            <p class="role">Modules Odoo — épargne, crédit et caisse</p>
+          </div>
+          <span class="etiq equipe">Contribution en équipe</span>
+        </div>
+      </div>
+      <div class="projet-corps">
+        <p>
+          Modules couvrant le cycle complet du crédit en institution de microfinance :
+          ouverture de compte et KYC, versements et retraits, sessions de caisse
+          journalières avec ouverture et clôture, demandes de crédit soumises à une
+          validation à plusieurs niveaux, garanties, échéanciers, remboursements et
+          pénalités.
+        </p>
+        <div class="saillant">
+          <b>La rigueur comptable prime.</b> Reçus, relevés de compte et états financiers
+          journaliers, sécurité par rôles et traçabilité de chaque opération — dans un
+          domaine où une écriture perdue est un écart de caisse à justifier.
+        </div>
+        <div class="faits">
+          <div class="fait"><div class="n">7 700</div><div class="q">lignes de code</div></div>
+          <div class="fait"><div class="n">2</div><div class="q">modules livrés</div></div>
+          <div class="fait"><div class="n">15 &amp; 17</div><div class="q">versions Odoo</div></div>
+        </div>
+        <div class="piles">
+          <span class="pile">Odoo</span><span class="pile">Python</span>
+          <span class="pile">PostgreSQL</span><span class="pile">QWeb</span>
+        </div>
+        <br><span class="mention">Modules privés — démonstration sur demande</span>
+      </div>
+    </article>
+
+    <!-- Sécurité Taxi -->
+    <article class="projet monte">
+      <div class="projet-tete">
+        <div class="rang">
+          <div class="jeton corail">🚕</div>
+          <div>
+            <h3>Sécurité Taxi Cameroun</h3>
+            <p class="role">Sécurité des transports en commun</p>
+          </div>
+          <span class="etiq perso">Projet personnel</span>
+        </div>
+      </div>
+      <div class="projet-corps">
+        <p>
+          Une passagère scanne le code QR collé dans un taxi et sait, <strong>avant de
+          monter</strong>, qui conduit et si ses papiers ont été contrôlés — et par quelle
+          autorité.
+        </p>
+        <div class="saillant">
+          <b>L'information arrive avant la décision.</b> Tout l'intérêt tient à cet
+          instant : une vérification qui n'aurait lieu qu'une fois la portière fermée ne
+          servirait à rien. Une fois à bord, elle partage son trajet avec un proche et
+          peut déclencher une alerte d'un seul appui.
+        </div>
+        <p>
+          Côté autorités : dossiers de chauffeurs, examen des pièces, file de traitement
+          par agent, décisions de validation ou de refus motivé.
+        </p>
+        <div class="faits">
+          <div class="fait"><div class="n">13 000</div><div class="q">lignes de code</div></div>
+          <div class="fait"><div class="n">2</div><div class="q">parcours distincts</div></div>
+          <div class="fait"><div class="n">18</div><div class="q">itérations</div></div>
+        </div>
+        <div class="piles">
+          <span class="pile">Web</span><span class="pile">PostgreSQL</span>
+          <span class="pile">QR</span><span class="pile">Géolocalisation</span>
+        </div>
+      </div>
+      <div class="galerie large">
+        <figure class="vue"><img src="captures/taxi/1-scan.png" alt="Scan du code QR d'un taxi" loading="lazy"><figcaption>Scan avant de monter</figcaption></figure>
+        <figure class="vue"><img src="captures/taxi/9-qr.png" alt="Code QR du chauffeur" loading="lazy"><figcaption>Code du chauffeur</figcaption></figure>
+        <figure class="vue"><img src="captures/taxi/2-trajet.png" alt="Partage de trajet" loading="lazy"><figcaption>Partage de trajet</figcaption></figure>
+        <figure class="vue"><img src="captures/taxi/3-alerte.png" alt="Déclenchement d'alerte" loading="lazy"><figcaption>Alerte d'urgence</figcaption></figure>
+        <figure class="vue"><img src="captures/taxi/agent-examen.png" alt="Examen d'un dossier par un agent" loading="lazy"><figcaption>Examen par l'autorité</figcaption></figure>
+        <figure class="vue"><img src="captures/taxi/8-dossier-complet.png" alt="Dossier chauffeur complet" loading="lazy"><figcaption>Dossier chauffeur</figcaption></figure>
+      </div>
+      <div class="projet-corps" style="padding-top:0">
+        <span class="mention">Dépôt privé — démonstration sur demande</span>
+      </div>
+    </article>
+
+    <!-- LinguaCampus -->
+    <article class="projet monte">
+      <div class="projet-tete">
+        <div class="rang">
+          <div class="jeton vert">🎓</div>
+          <div>
+            <h3>LinguaCampus</h3>
+            <p class="role">Gestion d'un institut de langues</p>
+          </div>
+          <span class="etiq perso">Projet personnel</span>
+        </div>
+      </div>
+      <div class="projet-corps">
+        <p>
+          Le cycle de vie complet d'un apprenant — de l'inscription à la délivrance d'une
+          attestation — avec le planning des cours, la facturation et le suivi pédagogique.
+        </p>
+        <div class="saillant">
+          <b>Dix modules métier articulés.</b> Apprenants, enseignants, cours, langues,
+          planning, facturation, pédagogie, comptes, institut : chaque domaine reste
+          autonome, ce qui permet de faire évoluer la facturation sans toucher au planning.
+        </div>
+        <div class="faits">
+          <div class="fait"><div class="n">19 400</div><div class="q">lignes de code</div></div>
+          <div class="fait"><div class="n">10</div><div class="q">modules Django</div></div>
+          <div class="fait"><div class="n">2</div><div class="q">applications</div></div>
+        </div>
+        <div class="piles">
+          <span class="pile">Django</span><span class="pile">Django REST</span>
+          <span class="pile">React</span><span class="pile">Next.js</span>
+          <span class="pile">PostgreSQL</span>
+        </div>
+      </div>
+      <div class="galerie bureau">
+        <figure class="vue"><img src="captures/lingua/dashboard.png" alt="Tableau de bord de l'institut" loading="lazy"><figcaption>Tableau de bord</figcaption></figure>
+        <figure class="vue"><img src="captures/lingua/planning.png" alt="Planning des cours" loading="lazy"><figcaption>Planning des cours</figcaption></figure>
+        <figure class="vue"><img src="captures/lingua/apprenant.png" alt="Fiche d'un apprenant" loading="lazy"><figcaption>Fiche apprenant</figcaption></figure>
+        <figure class="vue"><img src="captures/lingua/facturation.png" alt="Facturation" loading="lazy"><figcaption>Facturation</figcaption></figure>
+      </div>
+      <div class="projet-corps" style="padding-top:0">
+        <a class="aller" href="https://github.com/Fanoelle/lingua-platform">Voir le code sur GitHub →</a>
+      </div>
+    </article>
   </section>
 
+  <!-- ═══════════ COMPÉTENCES ═══════════ -->
   <section>
-    <h2>Comment je travaille</h2>
+    <div class="titre-sec monte"><h2>Compétences</h2><span class="filet"></span></div>
+    <p class="chapeau monte">Ce que je sais faire, et jusqu'où.</p>
 
-    <div class="principe">
-      <strong>Le contexte d'usage prime sur l'élégance technique.</strong>
-      <span>Une application de caisse qui affiche « pas de connexion » au moment
-      d'encaisser sera abandonnée en une semaine, quelle que soit la qualité de
-      son code.</span>
-    </div>
+    <div class="competences">
+      <div class="carte vedette monte">
+        <h4>⚙️ Odoo — socle solide</h4>
+        <p>
+          Développement de modules métier sur Odoo 15 et 17, de la modélisation à la mise
+          en production. Trois modules livrés, environ 12 000 lignes.
+        </p>
+        <div class="savoirs">
+          <span class="savoir">Modèles &amp; héritage</span>
+          <span class="savoir">Champs calculés</span>
+          <span class="savoir">Contraintes &amp; onchange</span>
+          <span class="savoir">Vues &amp; assistants</span>
+          <span class="savoir">Rapports QWeb</span>
+          <span class="savoir">Tâches planifiées</span>
+          <span class="savoir">Sécurité par groupes</span>
+          <span class="savoir">mail.thread</span>
+        </div>
+      </div>
 
-    <div class="principe">
-      <strong>Les décisions non évidentes s'expliquent.</strong>
-      <span>Mes projets documentent le <em>pourquoi</em> d'un choix, pas
-      seulement le <em>comment</em> — c'est ce qui permet d'y revenir six mois
-      plus tard sans tout redécouvrir.</span>
-    </div>
-
-    <div class="principe">
-      <strong>Les garde-fous vont dans le schéma.</strong>
-      <span>Pas seulement dans le code applicatif : une erreur de programmation
-      ne doit pas pouvoir contourner une règle métier.</span>
+      <div class="carte monte">
+        <h4>🖥 Back-end</h4>
+        <p>NestJS, Django, Django REST Framework, Node.js. Conception de schémas PostgreSQL, authentification par jeton, gestion des rôles, cloisonnement des données.</p>
+      </div>
+      <div class="carte monte">
+        <h4>📱 Mobile</h4>
+        <p>Flutter et Dart. Architectures hors ligne d'abord, base SQLite locale, synchronisation différée et idempotente, interfaces conçues pour l'usage debout.</p>
+      </div>
+      <div class="carte monte">
+        <h4>🎨 Front-end</h4>
+        <p>React, Next.js, TypeScript. Interfaces adaptatives, mode sombre, accessibilité de base.</p>
+      </div>
+      <div class="carte monte">
+        <h4>🧰 Outils</h4>
+        <p>Docker et Docker Compose, Git, Linux, déploiement sur serveur distant, gestion de conteneurs en production.</p>
+      </div>
     </div>
   </section>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <div class="projet" style="text-align:center">
-      <p style="margin-bottom:22px">
-        Ouverte aux opportunités de stage, d'alternance et de collaboration —
-        développement web, mobile et Odoo.
-      </p>
-      <div class="liens" style="justify-content:center;margin-top:0">
-        <a class="lien contact-plein" href="https://github.com/Fanoelle">GitHub</a>
-        <a class="lien contact-creux" id="courriel" href="#">Adresse électronique</a>
+  <!-- ═══════════ MÉTHODE ═══════════ -->
+  <section>
+    <div class="titre-sec monte"><h2>Méthode</h2><span class="filet"></span></div>
+    <p class="chapeau monte">Trois convictions qui orientent mon travail.</p>
+
+    <div class="principes">
+      <div class="principe monte">
+        <b>Le contexte d'usage prime sur l'élégance technique.</b>
+        <span>Une application de caisse qui affiche « pas de connexion » au moment
+        d'encaisser sera abandonnée en une semaine, quelle que soit la qualité de son
+        code. Je conçois d'abord pour la situation réelle : réseau absent, écran de
+        petite taille, geste effectué debout.</span>
       </div>
-      <p style="margin:20px 0 0;font-size:.85rem;color:var(--encre-douce)">
-        L'adresse s'affiche au clic — elle n'apparaît pas en clair dans la page,
-        pour éviter sa collecte automatique.
+      <div class="principe monte">
+        <b>Les décisions non évidentes s'expliquent.</b>
+        <span>Mes projets documentent le <em>pourquoi</em> d'un choix, pas seulement le
+        <em>comment</em>. C'est ce qui permet d'y revenir six mois plus tard — ou de
+        passer le relais — sans tout redécouvrir.</span>
+      </div>
+      <div class="principe monte">
+        <b>Les garde-fous vont dans le schéma.</b>
+        <span>Pas seulement dans le code applicatif : contraintes, vérifications et règles
+        métier au niveau de la base. Une erreur de programmation ne doit pas pouvoir
+        contourner une règle qui engage de l'argent ou la sécurité de quelqu'un.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ CONTACT ═══════════ -->
+  <section id="contact">
+    <div class="contact monte">
+      <h3>Travaillons ensemble</h3>
+      <p>
+        Ouverte aux opportunités de stage, d'alternance et de collaboration —
+        développement Odoo, web et mobile.
+      </p>
+      <div class="actions">
+        <a class="bouton clair" href="https://github.com/Fanoelle">Mon GitHub</a>
+        <a class="bouton vide" id="courriel" href="#">Afficher mon adresse</a>
+      </div>
+      <p class="avis">
+        L'adresse s'affiche au clic : elle n'apparaît pas en clair dans la page, pour
+        éviter sa collecte automatique.
       </p>
     </div>
   </section>
 
   <footer>
-    <p>
-      TCHOUONLA Fanoelle &nbsp;·&nbsp;
-      <a href="https://github.com/Fanoelle">github.com/Fanoelle</a>
-    </p>
+    TCHOUONLA Fanoelle · Développeuse full-stack · Cameroun
   </footer>
-
 </div>
 
+<div class="loupe" id="loupe"><span class="fermer">×</span><img id="loupe-img" src="" alt=""></div>
+
 <script>
-  // L'adresse est assemblée à l'exécution plutôt qu'écrite dans la page :
-  // les robots collecteurs lisent le HTML, pas le résultat du script.
-  (function () {
-    var lien = document.getElementById('courriel');
-    if (!lien) return;
+(function () {
+  'use strict';
 
-    var partie = ['andryanatchouonla', 'gmail', 'com'];
+  /* ── Apparition au défilement ── */
+  var cibles = document.querySelectorAll('.monte');
+  // Le masquage n'entre en vigueur qu'ici : si ce script ne s'exécute pas,
+  // la page reste entièrement lisible.
+  if ('IntersectionObserver' in window) {
+    document.documentElement.classList.add('anime');
 
+    var obs = new IntersectionObserver(function (entrees) {
+      entrees.forEach(function (e, i) {
+        if (!e.isIntersecting) return;
+        // Léger décalage : les éléments d'une même rangée entrent l'un après l'autre.
+        setTimeout(function () { e.target.classList.add('vu'); }, i * 70);
+        obs.unobserve(e.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px' });
+    cibles.forEach(function (c) { obs.observe(c); });
+
+    // Filet de sécurité : quoi qu'il arrive, rien ne reste masqué au-delà
+    // de deux secondes — une arrivée directe sur une ancre, par exemple,
+    // peut laisser des éléments hors du champ de l'observateur.
+    setTimeout(function () {
+      cibles.forEach(function (c) { c.classList.add('vu'); });
+    }, 2000);
+  }
+
+  /* ── Compteurs ── */
+  var chiffres = document.querySelectorAll('.compteur .val');
+  function animer(el) {
+    var cible = parseInt(el.dataset.cible, 10);
+    var suffixe = el.dataset.suffixe || '';
+    var debut = performance.now();
+    var duree = 1300;
+    function pas(t) {
+      var p = Math.min((t - debut) / duree, 1);
+      // Amortissement en fin de course, pour éviter l'arrêt brutal.
+      var v = Math.round(cible * (1 - Math.pow(1 - p, 3)));
+      el.textContent = v + suffixe;
+      if (p < 1) requestAnimationFrame(pas);
+    }
+    requestAnimationFrame(pas);
+  }
+  if ('IntersectionObserver' in window) {
+    var obsN = new IntersectionObserver(function (entrees) {
+      entrees.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        animer(e.target); obsN.unobserve(e.target);
+      });
+    }, { threshold: 0.6 });
+    chiffres.forEach(function (c) { obsN.observe(c); });
+
+    // Même filet que pour les apparitions : un compteur resté à zéro
+    // afficherait un chiffre faux, ce qui est pire que pas d'animation.
+    setTimeout(function () {
+      chiffres.forEach(function (c) {
+        if (c.textContent === '0') {
+          c.textContent = c.dataset.cible + (c.dataset.suffixe || '');
+        }
+      });
+    }, 2500);
+  } else {
+    chiffres.forEach(function (c) { c.textContent = c.dataset.cible + (c.dataset.suffixe || ''); });
+  }
+
+  /* ── Loupe sur les captures ── */
+  var loupe = document.getElementById('loupe');
+  var loupeImg = document.getElementById('loupe-img');
+  document.querySelectorAll('.vue img').forEach(function (img) {
+    img.addEventListener('click', function () {
+      loupeImg.src = img.src;
+      loupeImg.alt = img.alt;
+      loupe.classList.add('ouverte');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  function fermer() {
+    loupe.classList.remove('ouverte');
+    document.body.style.overflow = '';
+  }
+  loupe.addEventListener('click', fermer);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') fermer();
+  });
+
+  /* ── Adresse révélée au clic ──
+     Assemblée à l'exécution : les robots collecteurs lisent le HTML,
+     pas le résultat du script. */
+  var lien = document.getElementById('courriel');
+  if (lien) {
+    var parts = ['andryanatchouonla', 'gmail', 'com'];
     lien.addEventListener('click', function (e) {
       e.preventDefault();
-      var adresse = partie[0] + '@' + partie[1] + '.' + partie[2];
+      var adresse = parts[0] + '@' + parts[1] + '.' + parts[2];
       lien.textContent = adresse;
       lien.href = 'mailto:' + adresse;
-      // Le clic suivant ouvre la messagerie ; celui-ci ne fait que révéler.
-      lien.addEventListener('click', function (ev) { ev.stopPropagation(); }, true);
     }, { once: true });
-  })();
+  }
+})();
 </script>
 
 </body>
