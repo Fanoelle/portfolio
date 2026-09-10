@@ -4,7 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TCHOUONLA Fanoelle — Développeuse full-stack</title>
-<meta name="description" content="Étudiante et développeuse full-stack au Cameroun. Applications hors ligne d'abord : Flutter, NestJS, Django, PostgreSQL.">
+<meta name="description" content="TCHOUONLA Fanoelle — étudiante et développeuse full-stack au Cameroun. Modules Odoo, applications mobiles hors ligne, plateformes web : Odoo, Flutter, NestJS, Django, PostgreSQL.">
+<meta name="author" content="TCHOUONLA Fanoelle">
+<meta property="og:title" content="TCHOUONLA Fanoelle — Développeuse full-stack">
+<meta property="og:description" content="Modules Odoo, applications mobiles hors ligne, plateformes web.">
+<meta property="og:type" content="website">
 <style>
   :root {
     --fond: #f7fbfa;
@@ -61,7 +65,17 @@
     max-width: 620px;
     margin: 0;
   }
-  .liens { margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .socles { margin-top: 22px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .socle {
+    background: rgba(255,255,255,.16);
+    border: 1px solid rgba(255,255,255,.28);
+    color: #fff;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: .82rem;
+    font-weight: 600;
+  }
+  .liens { margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap; }
   .lien {
     display: inline-block;
     padding: 11px 22px;
@@ -170,6 +184,11 @@
     color: var(--marque);
   }
   .bloc p { margin: 0; font-size: .93rem; color: var(--encre-douce); }
+  .bloc.phare {
+    grid-column: 1 / -1;
+    border-color: var(--marque);
+    background: linear-gradient(135deg, rgba(0,105,92,.06), rgba(46,158,143,.03));
+  }
 
   /* ---------- Méthode ---------- */
   .principe {
@@ -189,6 +208,12 @@
     font-size: .88rem;
   }
   footer a { color: var(--marque); text-decoration: none; font-weight: 600; }
+
+  .contact-plein { background: var(--marque); color: #fff; }
+  .contact-creux { border: 1.5px solid var(--marque); color: var(--marque); }
+  @media (prefers-color-scheme: dark) {
+    .contact-creux { border-color: var(--marque-claire); color: var(--marque-claire); }
+  }
 </style>
 </head>
 <body>
@@ -198,14 +223,22 @@
     <h1>TCHOUONLA Fanoelle</h1>
     <p class="role">Étudiante &amp; développeuse full-stack — Cameroun</p>
     <p class="accroche">
-      Je conçois des applications qui doivent fonctionner là où l'infrastructure
-      ne suit pas toujours : réseau intermittent, téléphones d'entrée de gamme,
+      Je développe des applications métier — web, mobile et
+      <strong>modules Odoo</strong> — pour des contextes où l'infrastructure ne
+      suit pas toujours : réseau intermittent, téléphones d'entrée de gamme,
       utilisateurs pressés. Cette contrainte oriente la plupart de mes choix
       techniques.
     </p>
+    <div class="socles">
+      <span class="socle">Odoo 15 &amp; 17</span>
+      <span class="socle">Flutter</span>
+      <span class="socle">NestJS</span>
+      <span class="socle">Django</span>
+      <span class="socle">PostgreSQL</span>
+    </div>
     <div class="liens">
-      <a class="lien plein" href="https://github.com/Fanoelle">GitHub</a>
-      <a class="lien creux" href="mailto:andryanatchouonla@gmail.com">Me contacter</a>
+      <a class="lien plein" href="https://github.com/Fanoelle">Voir mes projets</a>
+      <a class="lien creux" href="#contact">Me contacter</a>
     </div>
   </div>
 </header>
@@ -251,26 +284,6 @@
         <span class="pile">Docker</span>
       </div>
       <span class="prive">Dépôt privé — démonstration sur demande</span>
-    </div>
-
-    <div class="projet">
-      <h3>🚕 Sécurité Taxi Cameroun</h3>
-      <p class="sous">Sécurité des transports en commun</p>
-      <p>
-        Un passager scanne le code QR collé dans un taxi et sait,
-        <span class="fort">avant de monter</span>, qui conduit et si ses papiers
-        ont été contrôlés — et par quelle autorité.
-      </p>
-      <p>
-        Une fois à bord, il partage son trajet avec un proche et peut
-        déclencher une alerte d'un seul appui.
-      </p>
-      <div class="piles">
-        <span class="pile">Web</span>
-        <span class="pile">PostgreSQL</span>
-        <span class="pile">QR</span>
-      </div>
-      <a class="voir" href="https://github.com/Fanoelle/Securite-taxi">Voir le projet →</a>
     </div>
 
     <div class="projet">
@@ -321,6 +334,26 @@
     </div>
 
     <div class="projet">
+      <h3>🚕 Sécurité Taxi Cameroun</h3>
+      <p class="sous">Sécurité des transports en commun</p>
+      <p>
+        Un passager scanne le code QR collé dans un taxi et sait,
+        <span class="fort">avant de monter</span>, qui conduit et si ses papiers
+        ont été contrôlés — et par quelle autorité.
+      </p>
+      <p>
+        Une fois à bord, il partage son trajet avec un proche et peut
+        déclencher une alerte d'un seul appui.
+      </p>
+      <div class="piles">
+        <span class="pile">Web</span>
+        <span class="pile">PostgreSQL</span>
+        <span class="pile">QR</span>
+      </div>
+      <span class="prive">Dépôt privé — démonstration sur demande</span>
+    </div>
+
+    <div class="projet">
       <h3>🎓 LinguaCampus</h3>
       <p class="sous">Gestion d'un institut de langues</p>
       <p>
@@ -345,9 +378,14 @@
         <h4>Back-end</h4>
         <p>NestJS, Django, Node.js, Django REST Framework, PostgreSQL, conception de schémas</p>
       </div>
-      <div class="bloc">
-        <h4>ERP</h4>
-        <p>Odoo 15 &amp; 17, développement de modules métier, rapports QWeb, tâches planifiées</p>
+      <div class="bloc phare">
+        <h4>Odoo — socle solide</h4>
+        <p>
+          Développement de modules métier sur Odoo 15 et 17 : modèles et
+          héritage, champs calculés, contraintes et <em>onchange</em>, vues et
+          assistants, rapports QWeb imprimables, tâches planifiées, sécurité par
+          groupes et règles d'accès.
+        </p>
       </div>
       <div class="bloc">
         <h4>Mobile</h4>
@@ -388,15 +426,52 @@
     </div>
   </section>
 
+  <section id="contact">
+    <h2>Contact</h2>
+    <div class="projet" style="text-align:center">
+      <p style="margin-bottom:22px">
+        Ouverte aux opportunités de stage, d'alternance et de collaboration —
+        développement web, mobile et Odoo.
+      </p>
+      <div class="liens" style="justify-content:center;margin-top:0">
+        <a class="lien contact-plein" href="https://github.com/Fanoelle">GitHub</a>
+        <a class="lien contact-creux" id="courriel" href="#">Adresse électronique</a>
+      </div>
+      <p style="margin:20px 0 0;font-size:.85rem;color:var(--encre-douce)">
+        L'adresse s'affiche au clic — elle n'apparaît pas en clair dans la page,
+        pour éviter sa collecte automatique.
+      </p>
+    </div>
+  </section>
+
   <footer>
     <p>
+      TCHOUONLA Fanoelle &nbsp;·&nbsp;
       <a href="https://github.com/Fanoelle">github.com/Fanoelle</a>
-      &nbsp;·&nbsp;
-      <a href="mailto:andryanatchouonla@gmail.com">andryanatchouonla@gmail.com</a>
     </p>
   </footer>
 
 </div>
+
+<script>
+  // L'adresse est assemblée à l'exécution plutôt qu'écrite dans la page :
+  // les robots collecteurs lisent le HTML, pas le résultat du script.
+  (function () {
+    var lien = document.getElementById('courriel');
+    if (!lien) return;
+
+    var partie = ['andryanatchouonla', 'gmail', 'com'];
+
+    lien.addEventListener('click', function (e) {
+      e.preventDefault();
+      var adresse = partie[0] + '@' + partie[1] + '.' + partie[2];
+      lien.textContent = adresse;
+      lien.href = 'mailto:' + adresse;
+      // Le clic suivant ouvre la messagerie ; celui-ci ne fait que révéler.
+      lien.addEventListener('click', function (ev) { ev.stopPropagation(); }, true);
+    }, { once: true });
+  })();
+</script>
 
 </body>
 </html>
