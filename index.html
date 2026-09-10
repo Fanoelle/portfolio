@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jordan — Développeur full-stack</title>
+<meta name="description" content="Développeur full-stack au Cameroun. Applications hors ligne d'abord : Flutter, NestJS, Django, PostgreSQL.">
+<style>
+  :root {
+    --fond: #f7fbfa;
+    --surface: #ffffff;
+    --encre: #14251f;
+    --encre-douce: #5c6b67;
+    --marque: #00695C;
+    --marque-claire: #2E9E8F;
+    --accent: #F2A33C;
+    --trait: #dde9e6;
+    --rayon: 18px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fond: #0f1614;
+      --surface: #17211e;
+      --encre: #e8f0ee;
+      --encre-douce: #9db3ad;
+      --trait: #26332f;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--fond);
+    color: var(--encre);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .conteneur { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- En-tête ---------- */
+  header {
+    background: linear-gradient(135deg, var(--marque), var(--marque-claire));
+    color: #fff;
+    padding: 88px 0 72px;
+  }
+  header h1 {
+    font-size: clamp(2.2rem, 6vw, 3.4rem);
+    margin: 0 0 8px;
+    letter-spacing: -1.2px;
+    font-weight: 800;
+  }
+  .role {
+    font-size: clamp(1rem, 2.6vw, 1.25rem);
+    opacity: .92;
+    margin: 0 0 24px;
+    font-weight: 500;
+  }
+  .accroche {
+    font-size: 1.02rem;
+    opacity: .88;
+    max-width: 620px;
+    margin: 0;
+  }
+  .liens { margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .lien {
+    display: inline-block;
+    padding: 11px 22px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: .94rem;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .lien:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,.18); }
+  .lien.plein { background: #fff; color: var(--marque); }
+  .lien.creux { border: 1.5px solid rgba(255,255,255,.55); color: #fff; }
+
+  /* ---------- Sections ---------- */
+  section { padding: 64px 0 8px; }
+  h2 {
+    font-size: .8rem;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: var(--encre-douce);
+    font-weight: 700;
+    margin: 0 0 28px;
+  }
+
+  /* ---------- Projets ---------- */
+  .projet {
+    background: var(--surface);
+    border: 1px solid var(--trait);
+    border-radius: var(--rayon);
+    padding: 30px;
+    margin-bottom: 22px;
+  }
+  .projet h3 {
+    font-size: 1.4rem;
+    margin: 0 0 4px;
+    letter-spacing: -.5px;
+  }
+  .projet .sous {
+    color: var(--encre-douce);
+    font-size: .93rem;
+    margin: 0 0 16px;
+    font-style: italic;
+  }
+  .projet p { margin: 0 0 14px; }
+  .fort { color: var(--marque); font-weight: 600; }
+
+  .piles { display: flex; gap: 7px; flex-wrap: wrap; margin: 18px 0 0; }
+  .pile {
+    background: rgba(0,105,92,.09);
+    color: var(--marque);
+    padding: 5px 13px;
+    border-radius: 20px;
+    font-size: .8rem;
+    font-weight: 600;
+  }
+  @media (prefers-color-scheme: dark) {
+    .pile { background: rgba(46,158,143,.16); color: var(--marque-claire); }
+  }
+
+  .captures {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px;
+    margin: 22px 0 4px;
+  }
+  .captures img {
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid var(--trait);
+    display: block;
+  }
+
+  .voir {
+    display: inline-block;
+    margin-top: 16px;
+    color: var(--marque);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: .92rem;
+  }
+  .voir:hover { text-decoration: underline; }
+  .prive {
+    display: inline-block;
+    margin-top: 16px;
+    color: var(--encre-douce);
+    font-size: .88rem;
+  }
+
+  /* ---------- Compétences ---------- */
+  .grille {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 16px;
+  }
+  .bloc {
+    background: var(--surface);
+    border: 1px solid var(--trait);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .bloc h4 {
+    margin: 0 0 10px;
+    font-size: .78rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--marque);
+  }
+  .bloc p { margin: 0; font-size: .93rem; color: var(--encre-douce); }
+
+  /* ---------- Méthode ---------- */
+  .principe {
+    border-left: 3px solid var(--marque);
+    padding: 2px 0 2px 20px;
+    margin-bottom: 26px;
+  }
+  .principe strong { display: block; margin-bottom: 5px; }
+  .principe span { color: var(--encre-douce); font-size: .95rem; }
+
+  footer {
+    margin-top: 72px;
+    padding: 32px 0 44px;
+    border-top: 1px solid var(--trait);
+    text-align: center;
+    color: var(--encre-douce);
+    font-size: .88rem;
+  }
+  footer a { color: var(--marque); text-decoration: none; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="conteneur">
+    <h1>Jordan</h1>
+    <p class="role">Développeur full-stack — Cameroun</p>
+    <p class="accroche">
+      Je conçois des applications qui doivent fonctionner là où l'infrastructure
+      ne suit pas toujours : réseau intermittent, téléphones d'entrée de gamme,
+      utilisateurs pressés. Cette contrainte oriente la plupart de mes choix
+      techniques.
+    </p>
+    <div class="liens">
+      <a class="lien plein" href="https://github.com/Fanoelle">GitHub</a>
+      <a class="lien creux" href="mailto:jordan00smit@gmail.com">Me contacter</a>
+    </div>
+  </div>
+</header>
+
+<div class="conteneur">
+
+  <section>
+    <h2>Projets</h2>
+
+    <div class="projet">
+      <h3>🏪 Boutique CRM</h3>
+      <p class="sous">Plateforme de fidélisation clientèle pour commerces de détail</p>
+      <p>
+        Un commerçant encaisse ses ventes sur son téléphone, constitue son
+        fichier clients au fil des passages, et relance par SMS ceux qui
+        s'éloignent.
+      </p>
+      <p>
+        <span class="fort">Toute l'application fonctionne sans connexion.</span>
+        Dans une boutique de Douala, le réseau va et vient : une caisse qui
+        afficherait « pas de connexion » au moment d'encaisser serait
+        abandonnée en une semaine. Les données sont écrites en SQLite locale,
+        la synchronisation rattrape le retard quand le réseau revient.
+      </p>
+      <p>
+        Segmentation RFM automatique, détection de doublons, recherche
+        tolérante aux fautes de frappe, gestion des rôles vendeur/gérant,
+        traçabilité des encaissements.
+      </p>
+      <div class="captures">
+        <img src="captures/accueil.png" alt="Tableau de bord de la boutique" loading="lazy">
+        <img src="captures/vente.png" alt="Écran d'encaissement" loading="lazy">
+        <img src="captures/historique.png" alt="Historique des ventes" loading="lazy">
+        <img src="captures/equipe.png" alt="Gestion de l'équipe" loading="lazy">
+      </div>
+      <div class="piles">
+        <span class="pile">Flutter</span>
+        <span class="pile">Dart</span>
+        <span class="pile">NestJS</span>
+        <span class="pile">TypeScript</span>
+        <span class="pile">PostgreSQL</span>
+        <span class="pile">SQLite</span>
+        <span class="pile">Docker</span>
+      </div>
+      <span class="prive">Dépôt privé — démonstration sur demande</span>
+    </div>
+
+    <div class="projet">
+      <h3>🚕 Sécurité Taxi Cameroun</h3>
+      <p class="sous">Sécurité des transports en commun</p>
+      <p>
+        Un passager scanne le code QR collé dans un taxi et sait,
+        <span class="fort">avant de monter</span>, qui conduit et si ses papiers
+        ont été contrôlés — et par quelle autorité.
+      </p>
+      <p>
+        Une fois à bord, il partage son trajet avec un proche et peut
+        déclencher une alerte d'un seul appui.
+      </p>
+      <div class="piles">
+        <span class="pile">Web</span>
+        <span class="pile">PostgreSQL</span>
+        <span class="pile">QR</span>
+      </div>
+      <a class="voir" href="https://github.com/Fanoelle/Securite-taxi">Voir le projet →</a>
+    </div>
+
+    <div class="projet">
+      <h3>🎓 LinguaCampus</h3>
+      <p class="sous">Gestion d'un institut de langues</p>
+      <p>
+        Le cycle de vie complet d'un apprenant — de l'inscription à la
+        délivrance d'une attestation — avec le planning des cours, la
+        facturation et le suivi pédagogique.
+      </p>
+      <div class="piles">
+        <span class="pile">Django</span>
+        <span class="pile">Django REST</span>
+        <span class="pile">React</span>
+        <span class="pile">PostgreSQL</span>
+      </div>
+      <a class="voir" href="https://github.com/Fanoelle/lingua-platform">Voir le projet →</a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Compétences</h2>
+    <div class="grille">
+      <div class="bloc">
+        <h4>Back-end</h4>
+        <p>NestJS, Django, Node.js, Django REST Framework, PostgreSQL, conception de schémas</p>
+      </div>
+      <div class="bloc">
+        <h4>Mobile</h4>
+        <p>Flutter, Dart, SQLite, architectures hors ligne, synchronisation différée</p>
+      </div>
+      <div class="bloc">
+        <h4>Front-end</h4>
+        <p>React, Next.js, TypeScript, interfaces adaptatives</p>
+      </div>
+      <div class="bloc">
+        <h4>Outils</h4>
+        <p>Docker, Git, Linux, déploiement sur serveur</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Comment je travaille</h2>
+
+    <div class="principe">
+      <strong>Le contexte d'usage prime sur l'élégance technique.</strong>
+      <span>Une application de caisse qui affiche « pas de connexion » au moment
+      d'encaisser sera abandonnée en une semaine, quelle que soit la qualité de
+      son code.</span>
+    </div>
+
+    <div class="principe">
+      <strong>Les décisions non évidentes s'expliquent.</strong>
+      <span>Mes projets documentent le <em>pourquoi</em> d'un choix, pas
+      seulement le <em>comment</em> — c'est ce qui permet d'y revenir six mois
+      plus tard sans tout redécouvrir.</span>
+    </div>
+
+    <div class="principe">
+      <strong>Les garde-fous vont dans le schéma.</strong>
+      <span>Pas seulement dans le code applicatif : une erreur de programmation
+      ne doit pas pouvoir contourner une règle métier.</span>
+    </div>
+  </section>
+
+  <footer>
+    <p>
+      <a href="https://github.com/Fanoelle">github.com/Fanoelle</a>
+      &nbsp;·&nbsp;
+      <a href="mailto:jordan00smit@gmail.com">jordan00smit@gmail.com</a>
+    </p>
+  </footer>
+
+</div>
+
+</body>
+</html>
