@@ -334,8 +334,8 @@ footer{
 <div class="zone">
 
   <div class="compteurs">
-    <div class="compteur monte"><div class="val" data-cible="5">0</div><div class="lib">projets menés</div></div>
-    <div class="compteur monte"><div class="val" data-cible="64" data-suffixe="k">0</div><div class="lib">lignes de code</div></div>
+    <div class="compteur monte"><div class="val" data-cible="6">0</div><div class="lib">projets menés</div></div>
+    <div class="compteur monte"><div class="val" data-cible="87" data-suffixe="k">0</div><div class="lib">lignes de code</div></div>
     <div class="compteur monte"><div class="val" data-cible="3" data-suffixe=" modules">0</div><div class="lib">Odoo développés</div></div>
     <div class="compteur monte"><div class="val" data-cible="6" data-suffixe="+">0</div><div class="lib">technologies</div></div>
   </div>
@@ -345,7 +345,106 @@ footer{
     <div class="titre-sec monte">
       <h2>Réalisations</h2><span class="filet"></span>
     </div>
-    <p class="chapeau monte">Cinq projets, du terrain au code.</p>
+    <p class="chapeau monte">Six projets, du terrain au code.</p>
+
+    <!-- Tontines -->
+    <article class="projet monte">
+      <div class="projet-tete">
+        <div class="rang">
+          <div class="jeton corail">🪙</div>
+          <div>
+            <h3>Plateforme de tontines</h3>
+            <p class="role">Registre vérifiable pour tontines, mutuelles et caisses d'épargne</p>
+          </div>
+          <span class="etiq perso">Projet personnel</span>
+        </div>
+      </div>
+      <div class="projet-corps">
+        <p>
+          Une tontine se tient au cahier, et le cahier dit ce que le trésorier veut bien
+          qu'il dise. Quand un écart apparaît en assemblée, il est trop tard : le litige
+          est déjà là, et un litige non résolu dissout le groupe.
+        </p>
+        <div class="saillant">
+          <b>Le journal comptable ne peut pas mentir.</b> Toute somme est portée au débit
+          d'un compte et au crédit d'un autre, et la base <i>refuse</i> une écriture
+          déséquilibrée — ce n'est pas une convention de code, c'est une contrainte
+          PostgreSQL. Rien n'est jamais modifié ni supprimé : une erreur se corrige par une
+          écriture inverse qui cite l'originale. Un solde n'est donc pas une valeur qu'on
+          maintient, mais une valeur qu'on recalcule.
+        </div>
+        <p>
+          Trois mécanismes cohabitent sur un socle commun — tontine rotative, caisse
+          d'épargne avec prêts, mutuelle d'entraide — et la base refuse qu'un groupe
+          utilise les objets d'un autre mécanisme. Un moteur détecte automatiquement les
+          incohérences avant qu'elles ne deviennent des conflits, en médiane et écart
+          absolu médian plutôt qu'en moyenne, pour ne pas se laisser tromper par un seul
+          gros versement.
+        </p>
+        <p>
+          L'interface est conçue pour le terrain : elle reste consultable sans réseau, et
+          refuse explicitement la saisie hors ligne plutôt que de risquer un versement
+          compté deux fois dans un journal immuable. Un groupe qui tient son cahier depuis
+          deux ans peut le reprendre par import CSV — les versements sont rejoués par la
+          même fonction qu'au quotidien, jamais insérés directement.
+        </p>
+        <div class="faits">
+          <div class="fait"><div class="n">23 000</div><div class="q">lignes de code</div></div>
+          <div class="fait"><div class="n">151</div><div class="q">tests automatisés</div></div>
+          <div class="fait"><div class="n">239</div><div class="q">fonctions PL/pgSQL</div></div>
+          <div class="fait"><div class="n">52</div><div class="q">routes API</div></div>
+        </div>
+        <div class="piles">
+          <span class="pile">PostgreSQL 16</span><span class="pile">PL/pgSQL</span>
+          <span class="pile">NestJS</span><span class="pile">TypeScript</span>
+          <span class="pile">SQL brut</span><span class="pile">JavaScript</span>
+          <span class="pile">Service Worker</span><span class="pile">Docker</span>
+        </div>
+      </div>
+
+      <div class="schema">
+        <svg viewBox="0 0 660 160" role="img" aria-label="Le journal en partie double : une cotisation portée au débit de la caisse et au crédit du compte du membre, équilibre vérifié par la base">
+          <defs>
+            <linearGradient id="tg" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#6D3FC4"/><stop offset="1" stop-color="#9B6DF3"/>
+            </linearGradient>
+          </defs>
+
+          <text x="330" y="18" text-anchor="middle" font-size="11" fill="#7d918c">
+            Cotisation de 25 000 F — Khadija Sow, en espèces
+          </text>
+
+          <rect x="30" y="34" width="250" height="52" rx="13" fill="none" stroke="#9B6DF3" stroke-width="1.5"/>
+          <text x="155" y="56" text-anchor="middle" font-size="12" font-weight="700" fill="#6D3FC4" font-family="monospace">DÉBIT · caisse</text>
+          <text x="155" y="74" text-anchor="middle" font-size="12" fill="#7d918c" font-family="monospace">25 000</text>
+
+          <rect x="380" y="34" width="250" height="52" rx="13" fill="none" stroke="#9B6DF3" stroke-width="1.5"/>
+          <text x="505" y="56" text-anchor="middle" font-size="12" font-weight="700" fill="#6D3FC4" font-family="monospace">CRÉDIT · cotisations Khadija</text>
+          <text x="505" y="74" text-anchor="middle" font-size="12" fill="#7d918c" font-family="monospace">25 000</text>
+
+          <path d="M284 60 h92" stroke="url(#tg)" stroke-width="2" fill="none"/>
+          <path d="M370 55 l8 5 -8 5 z" fill="#9B6DF3"/>
+
+          <rect x="180" y="104" width="300" height="46" rx="13" fill="url(#tg)"/>
+          <text x="330" y="124" text-anchor="middle" font-size="12" font-weight="700" fill="#fff" font-family="monospace">équilibre = 0</text>
+          <text x="330" y="140" text-anchor="middle" font-size="9" fill="#e7dcfb">contrainte différée — la base refuse le contraire</text>
+
+          <path d="M155 88 v10 h175" stroke="#dbd0ef" stroke-width="1.5" fill="none"/>
+          <path d="M505 88 v10 h-175" stroke="#dbd0ef" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+
+      <div class="galerie">
+        <figure class="vue"><img src="captures/tontine/saisie.png" alt="Écran de saisie d'un versement" loading="lazy"><figcaption>Saisie d'un versement</figcaption></figure>
+        <figure class="vue"><img src="captures/tontine/impayes.png" alt="Liste des cotisations en attente" loading="lazy"><figcaption>Cotisations en attente</figcaption></figure>
+        <figure class="vue"><img src="captures/tontine/anomalies.png" alt="Écarts détectés automatiquement" loading="lazy"><figcaption>Détection d'anomalies</figcaption></figure>
+        <figure class="vue"><img src="captures/tontine/rapport.png" alt="Rapport d'assemblée" loading="lazy"><figcaption>Rapport d'assemblée</figcaption></figure>
+      </div>
+
+      <div class="projet-corps" style="padding-top:0">
+        <a class="aller" href="https://github.com/Fanoelle/tontine-platform">Voir le code sur GitHub →</a>
+      </div>
+    </article>
 
     <!-- Boutique CRM -->
     <article class="projet monte">
@@ -687,7 +786,7 @@ footer{
 
       <div class="carte monte">
         <h4>🖥 Back-end</h4>
-        <p>NestJS, Django, Django REST Framework, Node.js. Conception de schémas PostgreSQL, authentification par jeton, gestion des rôles, cloisonnement des données.</p>
+        <p>NestJS, Django, Django REST Framework, Node.js. Conception de schémas PostgreSQL, authentification par jeton, gestion des rôles, cloisonnement des données. Logique métier en PL/pgSQL quand l'invariant doit tenir quel que soit l'appelant — contraintes différées, déclencheurs, privilèges révoqués.</p>
       </div>
       <div class="carte monte">
         <h4>📱 Mobile</h4>
