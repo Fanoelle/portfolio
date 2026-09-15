@@ -22,13 +22,130 @@
   --police:'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --mono:'JetBrains Mono', ui-monospace, monospace;
 }
+/* Thème sombre. Il s'applique selon la préférence du système, sauf si le
+   visiteur a fait un choix : l'attribut data-theme sur <html> l'emporte alors
+   dans les deux sens. Les valeurs ne sont écrites qu'une fois, la règle claire
+   restant celle de :root. */
 @media (prefers-color-scheme:dark){
-  :root{
+  :root:not([data-theme="clair"]){
     --fond:#0a1210; --surface:#111d1a; --surface-2:#16241f;
     --encre:#e9f2ef; --encre-douce:#9ab3ac; --trait:#22332e;
     --ombre:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
     --ombre-forte:0 12px 40px rgba(0,0,0,.5);
   }
+}
+:root[data-theme="sombre"]{
+  --fond:#0a1210; --surface:#111d1a; --surface-2:#16241f;
+  --encre:#e9f2ef; --encre-douce:#9ab3ac; --trait:#22332e;
+  --ombre:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  --ombre-forte:0 12px 40px rgba(0,0,0,.5);
+}
+
+/* ══════ Grille de projets ══════
+   Trois cartes par ligne sur grand écran, deux au format tablette, une sur
+   téléphone. Chaque carte tient le même discours : d'où vient le projet, le
+   parti pris technique, et de quoi mesurer l'ampleur. */
+.grille-projets{
+  display:grid; gap:18px; margin-bottom:26px;
+  grid-template-columns:repeat(auto-fill, minmax(290px, 1fr));
+}
+
+.carte-projet{
+  display:flex; flex-direction:column; gap:10px;
+  padding:24px; text-align:left; cursor:pointer;
+  border:1px solid var(--trait); border-radius:20px;
+  background:var(--surface); color:var(--encre);
+  font:inherit; box-shadow:var(--ombre);
+  transition:transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s ease,
+             border-color .3s ease;
+}
+.carte-projet:hover{
+  transform:translateY(-5px);
+  border-color:var(--marque-2);
+  box-shadow:var(--ombre-forte);
+}
+.carte-projet:focus-visible{outline:2px solid var(--marque-2);outline-offset:3px;}
+
+.carte-tete{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.carte-projet h3{margin:0;font-size:1.12rem;letter-spacing:-.01em;}
+.carte-projet .role{margin:0;font-size:.85rem;color:var(--encre-douce);}
+
+/* L'accroche porte le parti pris : c'est ce qui distingue un projet d'un autre. */
+.accroche-carte{
+  margin:4px 0 0; font-size:.93rem; line-height:1.55;
+  padding-left:12px; border-left:2px solid var(--marque-2);
+  /* Deux lignes reservees : sans cela les chiffres se decalent d'une carte a
+     l'autre selon la longueur de l'accroche, et la rangee parait bancale. */
+  min-height:calc(2 * 1.55em);
+}
+
+.mini-faits{display:flex;flex-wrap:wrap;gap:16px;margin-top:auto;padding-top:12px;}
+.mini-fait{display:flex;flex-direction:column;gap:1px;}
+.mini-fait b{font:600 1.05rem/1 var(--mono);color:var(--marque-2);}
+.mini-fait span{font-size:.72rem;color:var(--encre-douce);}
+
+.carte-projet .piles{gap:5px;padding:0;}
+.carte-projet .pile{font-size:.7rem;padding:3px 8px;}
+.pile.discret{opacity:.6;}
+
+.carte-aller{
+  margin-top:6px; font-size:.84rem; font-weight:600; color:var(--marque-2);
+}
+.carte-aller span{display:inline-block;transition:transform .25s cubic-bezier(.16,1,.3,1);}
+.carte-projet:hover .carte-aller span{transform:translateX(4px);}
+
+/* ══════ Panneau détaillé ══════ */
+.detail-projet{margin-bottom:26px;animation:deplier .45s cubic-bezier(.16,1,.3,1);}
+.detail-projet .projet{margin-bottom:0;}
+
+@keyframes deplier{
+  from{opacity:0;transform:translateY(-12px);}
+  to{opacity:1;transform:none;}
+}
+@media (prefers-reduced-motion:reduce){
+  .detail-projet{animation:none;}
+}
+
+.fermer-detail{
+  margin:0 34px 26px; padding:9px 18px; cursor:pointer;
+  border:1px solid var(--trait); border-radius:999px;
+  background:transparent; color:var(--encre-douce);
+  font:600 .84rem/1 var(--police);
+  transition:color .25s ease, border-color .25s ease;
+}
+.fermer-detail:hover{color:var(--encre);border-color:var(--marque-2);}
+
+@media (max-width:640px){
+  .carte-projet{padding:20px;}
+  .fermer-detail{margin:0 20px 20px;}
+}
+
+/* ══════ Bascule de thème ══════ */
+.theme{
+  position:fixed; top:18px; right:18px; z-index:40;
+  display:inline-flex; align-items:center; gap:7px;
+  padding:9px 14px; border-radius:999px; cursor:pointer;
+  border:1px solid var(--trait); background:var(--surface);
+  color:var(--encre-douce); font:600 .82rem/1 var(--police);
+  box-shadow:var(--ombre);
+  transition:color .25s ease, border-color .25s ease, transform .25s cubic-bezier(.16,1,.3,1);
+}
+.theme:hover{color:var(--encre);border-color:var(--marque-2);transform:translateY(-2px);}
+.theme:focus-visible{outline:2px solid var(--marque-2);outline-offset:3px;}
+.theme .sym{font-size:.95rem;line-height:1;}
+
+/* Le libellé encombrerait un écran de téléphone : l'icône suffit à comprendre. */
+@media (max-width:640px){
+  .theme{top:12px;right:12px;padding:9px;}
+  .theme .mot{display:none;}
+}
+
+/* La transition de couleurs accompagne la bascule, sans ralentir le reste. */
+body, .carte, .projet, .theme, .socle, .pile{
+  transition:background-color .3s ease, color .3s ease, border-color .3s ease;
+}
+@media (prefers-reduced-motion:reduce){
+  body, .carte, .projet, .theme, .socle, .pile{transition:none;}
 }
 *{box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -300,8 +417,26 @@ footer{
   .etiq{margin-left:0;}
 }
 </style>
+<script>
+/* Thème appliqué avant le premier rendu : plus tard, la page afficherait
+   brièvement le thème du système avant de basculer. */
+(function () {
+  try {
+    var choix = localStorage.getItem('theme');
+    if (choix === 'clair' || choix === 'sombre') {
+      document.documentElement.setAttribute('data-theme', choix);
+    }
+  } catch (e) {
+    /* Navigation privée ou stockage refusé : on garde la préférence système. */
+  }
+})();
+</script>
 </head>
 <body>
+
+<button class="theme" id="theme" type="button" aria-live="polite">
+  <span class="sym" aria-hidden="true">◐</span><span class="mot">Thème</span>
+</button>
 
 <div class="bandeau">
   <div class="halo a"></div>
@@ -347,8 +482,103 @@ footer{
     </div>
     <p class="chapeau monte">Sept projets, du terrain au code.</p>
 
+    <div class="grille-projets">
+      <button class="carte-projet monte" type="button" data-projet="skillbridge-cmr"
+              aria-expanded="false" aria-controls="detail-skillbridge-cmr">
+        <div class="carte-tete">
+          <div class="jeton vert">🌉</div>
+          <span class="etiq perso">Projet personnel</span>
+        </div>
+        <h3>SkillBridge.Cmr</h3>
+        <p class="role">Plateforme d'emploi qui évalue les compétences, pas les diplômes</p>
+        <p class="accroche-carte">Le score n'est jamais une boîte noire.</p>
+        <div class="mini-faits"><div class="mini-fait"><b>18 100</b><span>lignes de code</span></div><div class="mini-fait"><b>86</b><span>tests automatisés</span></div><div class="mini-fait"><b>71</b><span>routes API</span></div></div>
+        <div class="piles"><span class="pile">Java 17</span><span class="pile">Spring Boot 3</span><span class="pile">PostgreSQL 16</span><span class="pile">Flyway</span><span class="pile discret">+5</span></div>
+        <span class="carte-aller">Voir le détail <span aria-hidden="true">→</span></span>
+      </button>
+      <button class="carte-projet monte" type="button" data-projet="plateforme-de-tontines"
+              aria-expanded="false" aria-controls="detail-plateforme-de-tontines">
+        <div class="carte-tete">
+          <div class="jeton corail">🪙</div>
+          <span class="etiq perso">Projet personnel</span>
+        </div>
+        <h3>Plateforme de tontines</h3>
+        <p class="role">Registre vérifiable pour tontines, mutuelles et caisses d'épargne</p>
+        <p class="accroche-carte">Le journal comptable ne peut pas mentir.</p>
+        <div class="mini-faits"><div class="mini-fait"><b>23 000</b><span>lignes de code</span></div><div class="mini-fait"><b>151</b><span>tests automatisés</span></div><div class="mini-fait"><b>239</b><span>fonctions PL/pgSQL</span></div></div>
+        <div class="piles"><span class="pile">PostgreSQL 16</span><span class="pile">PL/pgSQL</span><span class="pile">NestJS</span><span class="pile">TypeScript</span><span class="pile discret">+4</span></div>
+        <span class="carte-aller">Voir le détail <span aria-hidden="true">→</span></span>
+      </button>
+      <button class="carte-projet monte" type="button" data-projet="boutique-crm"
+              aria-expanded="false" aria-controls="detail-boutique-crm">
+        <div class="carte-tete">
+          <div class="jeton vert">🏪</div>
+          <span class="etiq perso">Projet personnel</span>
+        </div>
+        <h3>Boutique CRM</h3>
+        <p class="role">Plateforme de fidélisation pour commerces de détail</p>
+        <p class="accroche-carte">Toute l'application fonctionne sans connexion.</p>
+        <div class="mini-faits"><div class="mini-fait"><b>20 300</b><span>lignes de code</span></div><div class="mini-fait"><b>113</b><span>tests automatisés</span></div><div class="mini-fait"><b>3</b><span>couches applicatives</span></div></div>
+        <div class="piles"><span class="pile">Flutter</span><span class="pile">Dart</span><span class="pile">NestJS</span><span class="pile">TypeScript</span><span class="pile discret">+3</span></div>
+        <span class="carte-aller">Voir le détail <span aria-hidden="true">→</span></span>
+      </button>
+      <button class="carte-projet monte" type="button" data-projet="mutuelle"
+              aria-expanded="false" aria-controls="detail-mutuelle">
+        <div class="carte-tete">
+          <div class="jeton or">🤝</div>
+          <span class="etiq perso">Projet personnel</span>
+        </div>
+        <h3>Mutuelle</h3>
+        <p class="role">Module Odoo 17 — gestion d'une mutuelle d'entreprise</p>
+        <p class="accroche-carte">La mécanique financière tourne toute seule.</p>
+        <div class="mini-faits"><div class="mini-fait"><b>4 400</b><span>lignes de code</span></div><div class="mini-fait"><b>12</b><span>modèles métier</span></div><div class="mini-fait"><b>5</b><span>rapports QWeb</span></div></div>
+        <div class="piles"><span class="pile">Odoo 17</span><span class="pile">Python</span><span class="pile">PostgreSQL</span><span class="pile">QWeb</span><span class="pile discret">+1</span></div>
+        <span class="carte-aller">Voir le détail <span aria-hidden="true">→</span></span>
+      </button>
+      <button class="carte-projet monte" type="button" data-projet="microfinance-et-cr-dits"
+              aria-expanded="false" aria-controls="detail-microfinance-et-cr-dits">
+        <div class="carte-tete">
+          <div class="jeton or">🏦</div>
+          <span class="etiq equipe">Contribution en équipe</span>
+        </div>
+        <h3>Microfinance &amp; crédits</h3>
+        <p class="role">Modules Odoo — épargne, crédit et caisse</p>
+        <p class="accroche-carte">La rigueur comptable prime.</p>
+        <div class="mini-faits"><div class="mini-fait"><b>7 700</b><span>lignes de code</span></div><div class="mini-fait"><b>2</b><span>modules livrés</span></div><div class="mini-fait"><b>15 &amp; 17</b><span>versions Odoo</span></div></div>
+        <div class="piles"><span class="pile">Odoo</span><span class="pile">Python</span><span class="pile">PostgreSQL</span><span class="pile">QWeb</span></div>
+        <span class="carte-aller">Voir le détail <span aria-hidden="true">→</span></span>
+      </button>
+      <button class="carte-projet monte" type="button" data-projet="s-curit-taxi-cameroun"
+              aria-expanded="false" aria-controls="detail-s-curit-taxi-cameroun">
+        <div class="carte-tete">
+          <div class="jeton corail">🚕</div>
+          <span class="etiq perso">Projet personnel</span>
+        </div>
+        <h3>Sécurité Taxi Cameroun</h3>
+        <p class="role">Sécurité des transports en commun</p>
+        <p class="accroche-carte">L'information arrive avant la décision.</p>
+        <div class="mini-faits"><div class="mini-fait"><b>13 000</b><span>lignes de code</span></div><div class="mini-fait"><b>2</b><span>parcours distincts</span></div><div class="mini-fait"><b>18</b><span>itérations</span></div></div>
+        <div class="piles"><span class="pile">NestJS</span><span class="pile">TypeScript</span><span class="pile">PostgreSQL</span><span class="pile">Docker</span><span class="pile discret">+3</span></div>
+        <span class="carte-aller">Voir le détail <span aria-hidden="true">→</span></span>
+      </button>
+      <button class="carte-projet monte" type="button" data-projet="linguacampus"
+              aria-expanded="false" aria-controls="detail-linguacampus">
+        <div class="carte-tete">
+          <div class="jeton vert">🎓</div>
+          <span class="etiq perso">Projet personnel</span>
+        </div>
+        <h3>LinguaCampus</h3>
+        <p class="role">Gestion d'un institut de langues</p>
+        <p class="accroche-carte">Dix modules métier articulés.</p>
+        <div class="mini-faits"><div class="mini-fait"><b>19 400</b><span>lignes de code</span></div><div class="mini-fait"><b>10</b><span>modules Django</span></div><div class="mini-fait"><b>2</b><span>applications</span></div></div>
+        <div class="piles"><span class="pile">Django</span><span class="pile">Django REST</span><span class="pile">React</span><span class="pile">Next.js</span><span class="pile discret">+1</span></div>
+        <span class="carte-aller">Voir le détail <span aria-hidden="true">→</span></span>
+      </button>
+    </div>
+
+    <div class="detail-projet" id="detail-skillbridge-cmr" hidden>
     <!-- SkillBridge.Cmr -->
-    <article class="projet monte">
+    <article class="projet">
       <div class="projet-tete">
         <div class="rang">
           <div class="jeton vert">🌉</div>
@@ -453,10 +683,12 @@ footer{
       <div class="projet-corps" style="padding-top:0">
         <a class="aller" href="https://github.com/Fanoelle/SkillBridge.Cmr">Voir le code sur GitHub →</a>
       </div>
+          <button class="fermer-detail" type="button">Fermer</button>
     </article>
-
+    </div>
+    <div class="detail-projet" id="detail-plateforme-de-tontines" hidden>
     <!-- Tontines -->
-    <article class="projet monte">
+    <article class="projet">
       <div class="projet-tete">
         <div class="rang">
           <div class="jeton corail">🪙</div>
@@ -552,10 +784,12 @@ footer{
       <div class="projet-corps" style="padding-top:0">
         <a class="aller" href="https://github.com/Fanoelle/tontine-platform">Voir le code sur GitHub →</a>
       </div>
+          <button class="fermer-detail" type="button">Fermer</button>
     </article>
-
+    </div>
+    <div class="detail-projet" id="detail-boutique-crm" hidden>
     <!-- Boutique CRM -->
-    <article class="projet monte">
+    <article class="projet">
       <div class="projet-tete">
         <div class="rang">
           <div class="jeton vert">🏪</div>
@@ -640,10 +874,12 @@ footer{
         <figure class="vue"><img src="captures/boutique/historique.png" alt="Historique des ventes" loading="lazy"><figcaption>Historique &amp; traçabilité</figcaption></figure>
         <figure class="vue"><img src="captures/boutique/equipe.png" alt="Gestion de l'équipe" loading="lazy"><figcaption>Gestion de l'équipe</figcaption></figure>
       </div>
+          <button class="fermer-detail" type="button">Fermer</button>
     </article>
-
+    </div>
+    <div class="detail-projet" id="detail-mutuelle" hidden>
     <!-- Mutuelle -->
-    <article class="projet monte">
+    <article class="projet">
       <div class="projet-tete">
         <div class="rang">
           <div class="jeton or">🤝</div>
@@ -732,10 +968,12 @@ footer{
       <div class="projet-corps" style="padding-top:0">
         <span class="mention">Module privé — démonstration sur demande</span>
       </div>
+          <button class="fermer-detail" type="button">Fermer</button>
     </article>
-
+    </div>
+    <div class="detail-projet" id="detail-microfinance-et-cr-dits" hidden>
     <!-- Microfinance -->
-    <article class="projet monte">
+    <article class="projet">
       <div class="projet-tete">
         <div class="rang">
           <div class="jeton or">🏦</div>
@@ -770,10 +1008,12 @@ footer{
         </div>
         <br><span class="mention">Modules privés — démonstration sur demande</span>
       </div>
+          <button class="fermer-detail" type="button">Fermer</button>
     </article>
-
+    </div>
+    <div class="detail-projet" id="detail-s-curit-taxi-cameroun" hidden>
     <!-- Sécurité Taxi -->
-    <article class="projet monte">
+    <article class="projet">
       <div class="projet-tete">
         <div class="rang">
           <div class="jeton corail">🚕</div>
@@ -823,10 +1063,12 @@ footer{
       <div class="projet-corps" style="padding-top:0">
         <span class="mention">Dépôt privé — démonstration sur demande</span>
       </div>
+          <button class="fermer-detail" type="button">Fermer</button>
     </article>
-
+    </div>
+    <div class="detail-projet" id="detail-linguacampus" hidden>
     <!-- LinguaCampus -->
-    <article class="projet monte">
+    <article class="projet">
       <div class="projet-tete">
         <div class="rang">
           <div class="jeton vert">🎓</div>
@@ -867,7 +1109,16 @@ footer{
       <div class="projet-corps" style="padding-top:0">
         <a class="aller" href="https://github.com/Fanoelle/lingua-platform">Voir le code sur GitHub →</a>
       </div>
+          <button class="fermer-detail" type="button">Fermer</button>
     </article>
+    </div>
+
+
+
+
+
+
+
   </section>
 
   <!-- ═══════════ COMPÉTENCES ═══════════ -->
@@ -994,6 +1245,81 @@ footer{
     setTimeout(function () {
       cibles.forEach(function (c) { c.classList.add('vu'); });
     }, 2000);
+  }
+
+  /* ── Ouverture des projets ── */
+  var cartesProjet = document.querySelectorAll('.carte-projet');
+  cartesProjet.forEach(function (carte) {
+    var detail = document.getElementById('detail-' + carte.dataset.projet);
+    if (!detail) return;
+
+    function fermer() {
+      detail.hidden = true;
+      carte.setAttribute('aria-expanded', 'false');
+    }
+
+    carte.addEventListener('click', function () {
+      var ouvert = !detail.hidden;
+
+      // Un seul projet ouvert à la fois : deux panneaux dépliés éloigneraient
+      // la grille au point qu'on ne saurait plus d'où l'on vient.
+      document.querySelectorAll('.detail-projet').forEach(function (d) { d.hidden = true; });
+      cartesProjet.forEach(function (c) { c.setAttribute('aria-expanded', 'false'); });
+
+      if (ouvert) return;
+
+      detail.hidden = false;
+      carte.setAttribute('aria-expanded', 'true');
+      detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    detail.querySelectorAll('.fermer-detail').forEach(function (b) {
+      b.addEventListener('click', function () {
+        fermer();
+        carte.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        carte.focus();
+      });
+    });
+  });
+
+  /* ── Bascule de thème ── */
+  var bouton = document.getElementById('theme');
+  if (bouton) {
+    var racine = document.documentElement;
+
+    function estSombre() {
+      var pose = racine.getAttribute('data-theme');
+      if (pose) return pose === 'sombre';
+      return window.matchMedia('(prefers-color-scheme:dark)').matches;
+    }
+
+    function rafraichir() {
+      var sombre = estSombre();
+      bouton.querySelector('.sym').textContent = sombre ? '☀' : '☾';
+      bouton.querySelector('.mot').textContent = sombre ? 'Clair' : 'Sombre';
+      bouton.setAttribute('aria-label',
+        sombre ? 'Passer au thème clair' : 'Passer au thème sombre');
+    }
+
+    bouton.addEventListener('click', function () {
+      var suivant = estSombre() ? 'clair' : 'sombre';
+      racine.setAttribute('data-theme', suivant);
+      try {
+        localStorage.setItem('theme', suivant);
+      } catch (e) {
+        /* Le choix ne survivra pas au rechargement, la page reste utilisable. */
+      }
+      rafraichir();
+    });
+
+    // Tant que le visiteur n'a rien choisi, la page suit son système, même
+    // si celui-ci change pendant la visite.
+    window.matchMedia('(prefers-color-scheme:dark)')
+      .addEventListener('change', function () {
+        if (!racine.getAttribute('data-theme')) rafraichir();
+      });
+
+    rafraichir();
   }
 
   /* ── Compteurs ── */
