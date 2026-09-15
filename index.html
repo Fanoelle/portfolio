@@ -337,7 +337,7 @@ footer{
     <div class="compteur monte"><div class="val" data-cible="7">0</div><div class="lib">projets menés</div></div>
     <div class="compteur monte"><div class="val" data-cible="106" data-suffixe="k">0</div><div class="lib">lignes de code</div></div>
     <div class="compteur monte"><div class="val" data-cible="3" data-suffixe=" modules">0</div><div class="lib">Odoo développés</div></div>
-    <div class="compteur monte"><div class="val" data-cible="25">0</div><div class="lib">technologies</div></div>
+    <div class="compteur monte"><div class="val" data-cible="10" data-prefixe="+ de ">0</div><div class="lib">technologies</div></div>
   </div>
 
   <!-- ═══════════ PROJETS ═══════════ -->
@@ -1000,6 +1000,7 @@ footer{
   var chiffres = document.querySelectorAll('.compteur .val');
   function animer(el) {
     var cible = parseInt(el.dataset.cible, 10);
+    var prefixe = el.dataset.prefixe || '';
     var suffixe = el.dataset.suffixe || '';
     var debut = performance.now();
     var duree = 1300;
@@ -1007,7 +1008,7 @@ footer{
       var p = Math.min((t - debut) / duree, 1);
       // Amortissement en fin de course, pour éviter l'arrêt brutal.
       var v = Math.round(cible * (1 - Math.pow(1 - p, 3)));
-      el.textContent = v + suffixe;
+      el.textContent = prefixe + v + suffixe;
       if (p < 1) requestAnimationFrame(pas);
     }
     requestAnimationFrame(pas);
@@ -1026,12 +1027,15 @@ footer{
     setTimeout(function () {
       chiffres.forEach(function (c) {
         if (c.textContent === '0') {
-          c.textContent = c.dataset.cible + (c.dataset.suffixe || '');
+          c.textContent = (c.dataset.prefixe || '') + c.dataset.cible
+            + (c.dataset.suffixe || '');
         }
       });
     }, 2500);
   } else {
-    chiffres.forEach(function (c) { c.textContent = c.dataset.cible + (c.dataset.suffixe || ''); });
+    chiffres.forEach(function (c) {
+      c.textContent = (c.dataset.prefixe || '') + c.dataset.cible + (c.dataset.suffixe || '');
+    });
   }
 
   /* ── Loupe sur les captures ── */
