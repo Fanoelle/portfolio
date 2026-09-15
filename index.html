@@ -334,10 +334,10 @@ footer{
 <div class="zone">
 
   <div class="compteurs">
-    <div class="compteur monte"><div class="val" data-cible="6">0</div><div class="lib">projets menés</div></div>
-    <div class="compteur monte"><div class="val" data-cible="87" data-suffixe="k">0</div><div class="lib">lignes de code</div></div>
+    <div class="compteur monte"><div class="val" data-cible="7">0</div><div class="lib">projets menés</div></div>
+    <div class="compteur monte"><div class="val" data-cible="106" data-suffixe="k">0</div><div class="lib">lignes de code</div></div>
     <div class="compteur monte"><div class="val" data-cible="3" data-suffixe=" modules">0</div><div class="lib">Odoo développés</div></div>
-    <div class="compteur monte"><div class="val" data-cible="20">0</div><div class="lib">technologies</div></div>
+    <div class="compteur monte"><div class="val" data-cible="25">0</div><div class="lib">technologies</div></div>
   </div>
 
   <!-- ═══════════ PROJETS ═══════════ -->
@@ -345,7 +345,115 @@ footer{
     <div class="titre-sec monte">
       <h2>Réalisations</h2><span class="filet"></span>
     </div>
-    <p class="chapeau monte">Six projets, du terrain au code.</p>
+    <p class="chapeau monte">Sept projets, du terrain au code.</p>
+
+    <!-- SkillBridge.Cmr -->
+    <article class="projet monte">
+      <div class="projet-tete">
+        <div class="rang">
+          <div class="jeton vert">🌉</div>
+          <div>
+            <h3>SkillBridge.Cmr</h3>
+            <p class="role">Plateforme d'emploi qui évalue les compétences, pas les diplômes</p>
+          </div>
+          <span class="etiq perso">Projet personnel</span>
+        </div>
+      </div>
+      <div class="projet-corps">
+        <p>
+          Au Cameroun, des entreprises peinent à recruter des profils techniques pendant que
+          des jeunes compétents restent sans opportunité. L'autodidacte maîtrise des
+          technologies recherchées sans le diplôme correspondant ; le jeune diplômé a un
+          diplôme qui ne dit rien de ce qu'il sait faire. Et le candidat refusé n'apprend
+          jamais pourquoi, donc se forme au hasard.
+        </p>
+        <div class="saillant">
+          <b>Le score n'est jamais une boîte noire.</b> L'adéquation entre un profil et une
+          offre se décompose en trois parts justifiées : la couverture des compétences
+          exigées (50 %), l'écart entre niveau déclaré et niveau attendu (30 %), et les
+          preuves apportées — test réussi ou projet du portfolio (20 %). Chaque score
+          affiché est accompagné du détail, compétence par compétence. Dépasser le niveau
+          requis n'apporte aucun bonus, et l'insuffisance n'est jamais éliminatoire.
+        </div>
+        <p>
+          Ce qui change pour le candidat, c'est ce qu'il apprend d'un refus. La plateforme
+          analyse les offres publiées et lui dit quelles compétences acquérir en priorité :
+          <i>« Vous maîtrisez Java, SQL et Docker. Il vous manque Linux et CI/CD pour être
+          compétitif. »</i> Un refus cesse d'être une impasse pour devenir un plan de
+          formation. Le moteur ne dépend ni de la base ni du web — il reçoit des objets du
+          domaine et rend un résultat, ce qui le rend testable sans démarrer l'application.
+        </p>
+        <p>
+          Le classement des candidats reste anonyme : un recruteur juge sur les compétences,
+          et n'ouvre un dossier que si le candidat a effectivement postulé chez lui. Un fil
+          d'actualité complète l'ensemble — publier, réagir, commenter, repartager, suivre —
+          avec messagerie privée et notifications, sans jamais rendre les dossiers publics.
+        </p>
+        <div class="faits">
+          <div class="fait"><div class="n">18 100</div><div class="q">lignes de code</div></div>
+          <div class="fait"><div class="n">86</div><div class="q">tests automatisés</div></div>
+          <div class="fait"><div class="n">71</div><div class="q">routes API</div></div>
+          <div class="fait"><div class="n">23</div><div class="q">entités métier</div></div>
+        </div>
+        <div class="piles">
+          <span class="pile">Java 17</span><span class="pile">Spring Boot 3</span>
+          <span class="pile">PostgreSQL 16</span><span class="pile">Flyway</span>
+          <span class="pile">JPA / Hibernate</span><span class="pile">JWT</span>
+          <span class="pile">React 18</span><span class="pile">Vite</span>
+          <span class="pile">Docker</span>
+        </div>
+      </div>
+
+      <div class="schema">
+        <svg viewBox="0 0 660 170" role="img" aria-label="Le score d'adéquation décomposé en trois parts : couverture des compétences exigées, adéquation des niveaux, preuves apportées par test ou projet">
+          <defs>
+            <linearGradient id="sbg" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#1a9c6b"/><stop offset="1" stop-color="#d69a2b"/>
+            </linearGradient>
+          </defs>
+
+          <text x="330" y="18" text-anchor="middle" font-size="11" fill="#7d918c">
+            Junior Mbarga face au stage DevOps de Cloud Sahel
+          </text>
+
+          <rect x="20" y="34" width="190" height="56" rx="13" fill="none" stroke="#1a9c6b" stroke-width="1.5"/>
+          <text x="115" y="54" text-anchor="middle" font-size="11" font-weight="700" fill="#1a7f5a" font-family="monospace">COUVERTURE · 50 %</text>
+          <text x="115" y="72" text-anchor="middle" font-size="12" fill="#7d918c" font-family="monospace">36,36</text>
+          <text x="115" y="85" text-anchor="middle" font-size="9" fill="#9fb0ab">compétences exigées déclarées</text>
+
+          <rect x="235" y="34" width="190" height="56" rx="13" fill="none" stroke="#1a9c6b" stroke-width="1.5"/>
+          <text x="330" y="54" text-anchor="middle" font-size="11" font-weight="700" fill="#1a7f5a" font-family="monospace">NIVEAUX · 30 %</text>
+          <text x="330" y="72" text-anchor="middle" font-size="12" fill="#7d918c" font-family="monospace">28,79</text>
+          <text x="330" y="85" text-anchor="middle" font-size="9" fill="#9fb0ab">écart au niveau attendu</text>
+
+          <rect x="450" y="34" width="190" height="56" rx="13" fill="none" stroke="#d69a2b" stroke-width="1.5"/>
+          <text x="545" y="54" text-anchor="middle" font-size="11" font-weight="700" fill="#a8761c" font-family="monospace">PREUVES · 20 %</text>
+          <text x="545" y="72" text-anchor="middle" font-size="12" fill="#7d918c" font-family="monospace">9,09</text>
+          <text x="545" y="85" text-anchor="middle" font-size="9" fill="#9fb0ab">tests réussis et projets</text>
+
+          <path d="M115 92 v10 h215" stroke="#d7e2de" stroke-width="1.5" fill="none"/>
+          <path d="M330 92 v18" stroke="#d7e2de" stroke-width="1.5" fill="none"/>
+          <path d="M545 92 v10 h-215" stroke="#d7e2de" stroke-width="1.5" fill="none"/>
+
+          <rect x="190" y="112" width="280" height="46" rx="13" fill="url(#sbg)"/>
+          <text x="330" y="132" text-anchor="middle" font-size="12" font-weight="700" fill="#fff" font-family="monospace">28,64 / 100</text>
+          <text x="330" y="148" text-anchor="middle" font-size="9" fill="#e8f5ef">chaque part est affichée, jamais un seul chiffre</text>
+        </svg>
+      </div>
+
+      <div class="galerie bureau large">
+        <figure class="vue"><img src="captures/skillbridge/fil.jpg" alt="Fil d'actualité avec publications, réactions et suggestions de membres" loading="lazy"><figcaption>Fil d'actualité</figcaption></figure>
+        <figure class="vue"><img src="captures/skillbridge/matching.jpg" alt="Offres classées par score d'adéquation, avec compétences à acquérir" loading="lazy"><figcaption>Score expliqué et recommandations</figcaption></figure>
+        <figure class="vue"><img src="captures/skillbridge/offre.jpg" alt="Fiche d'offre détaillée avec le détail de l'adéquation du candidat" loading="lazy"><figcaption>Fiche d'offre et adéquation</figcaption></figure>
+        <figure class="vue"><img src="captures/skillbridge/profil.jpg" alt="Profil candidat : compétences, parcours, formations et portfolio" loading="lazy"><figcaption>Profil de compétences</figcaption></figure>
+        <figure class="vue"><img src="captures/skillbridge/recruteur.jpg" alt="Espace recruteur : offres publiées et candidatures reçues" loading="lazy"><figcaption>Espace recruteur</figcaption></figure>
+        <figure class="vue"><img src="captures/skillbridge/messages.jpg" alt="Messagerie privée entre un candidat et un recruteur" loading="lazy"><figcaption>Messagerie privée</figcaption></figure>
+      </div>
+
+      <div class="projet-corps" style="padding-top:0">
+        <a class="aller" href="https://github.com/Fanoelle/SkillBridge.Cmr">Voir le code sur GitHub →</a>
+      </div>
+    </article>
 
     <!-- Tontines -->
     <article class="projet monte">
