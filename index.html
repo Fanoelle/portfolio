@@ -557,7 +557,7 @@ footer{
         <h3>Sécurité Taxi Cameroun</h3>
         <p class="role">Sécurité des transports en commun</p>
         <p class="accroche-carte">L'information arrive avant la décision.</p>
-        <div class="mini-faits"><div class="mini-fait"><b>13 000</b><span>lignes de code</span></div><div class="mini-fait"><b>2</b><span>parcours distincts</span></div><div class="mini-fait"><b>18</b><span>itérations</span></div></div>
+        <div class="mini-faits"><div class="mini-fait"><b>17 000</b><span>lignes de code</span></div><div class="mini-fait"><b>4</b><span>parcours distincts</span></div><div class="mini-fait"><b>32</b><span>itérations</span></div></div>
         <div class="piles"><span class="pile">NestJS</span><span class="pile">TypeScript</span><span class="pile">PostgreSQL</span><span class="pile">Docker</span><span class="pile discret">+3</span></div>
         <span class="carte-aller">Voir le détail <span aria-hidden="true">→</span></span>
       </button>
@@ -1039,12 +1039,18 @@ footer{
         <p>
           Côté autorités : dossiers de chauffeurs, examen des pièces, file de traitement
           par agent, décisions de validation ou de refus motivé. Côté administration :
-          supervision de la plateforme, comptes des agents et tarifs par commune.
+          mise en service des communes, comptes des agents, supervision de la plateforme.
+        </p>
+        <p>
+          Prête pour un pilote : une alerte dont le SMS échoue repart seule, l'autorité
+          suit et clôt les alertes depuis son écran, l'écran du passager ne dit que ce
+          qui s'est réellement produit. Les données personnelles sont purgées à trente
+          jours et les sauvegardes chiffrées, comme l'exige la loi n° 2024/017.
         </p>
         <div class="faits">
-          <div class="fait"><div class="n">13 000</div><div class="q">lignes de code</div></div>
-          <div class="fait"><div class="n">2</div><div class="q">parcours distincts</div></div>
-          <div class="fait"><div class="n">18</div><div class="q">itérations</div></div>
+          <div class="fait"><div class="n">17 000</div><div class="q">lignes de code</div></div>
+          <div class="fait"><div class="n">4</div><div class="q">parcours distincts</div></div>
+          <div class="fait"><div class="n">32</div><div class="q">itérations</div></div>
         </div>
         <div class="piles">
           <span class="pile">NestJS</span><span class="pile">TypeScript</span>
@@ -1060,7 +1066,7 @@ footer{
         <figure class="vue"><img src="captures/taxi/3-alerte.png" alt="Déclenchement d'alerte" loading="lazy"><figcaption>Alerte d'urgence</figcaption></figure>
         <figure class="vue"><img src="captures/taxi/agent-examen.png" alt="Examen d'un dossier par un agent" loading="lazy"><figcaption>Examen par l'autorité</figcaption></figure>
         <figure class="vue"><img src="captures/taxi/8-dossier.png" alt="Dossier chauffeur : photo prise sur place et choix de la pièce d'identité" loading="lazy"><figcaption>Dossier chauffeur</figcaption></figure>
-        <figure class="vue"><img src="captures/taxi/agent-file.png" alt="File de validation d'un agent communal" loading="lazy"><figcaption>File de validation</figcaption></figure>
+        <figure class="vue"><img src="captures/taxi/agent-alertes.png" alt="Écran de l'agent communal : une alerte en cours, avec la position et les personnes prévenues, au-dessus de la file de validation" loading="lazy"><figcaption>Alertes et file de l'agent</figcaption></figure>
         <figure class="vue"><img src="captures/taxi/admin-ensemble.png" alt="Vue d'ensemble de l'administration de la plateforme" loading="lazy"><figcaption>Supervision</figcaption></figure>
       </div>
       <div class="projet-corps" style="padding-top:0">
